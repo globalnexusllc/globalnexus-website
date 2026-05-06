@@ -44,8 +44,8 @@ const projects: Project[] = [
     screenshot: '/portfolio/neighbors.jpg',
     testimonial: {
       quote: "Global Nexus delivered our full platform from scratch — frontend, backend, and database — with a level of craftsmanship we hadn't seen before. The checkout flow alone boosted our order conversions by 40%.",
-      name: 'Sarah Chen',
-      title: 'Co-Founder, Neighbors',
+      name: 'Chris Sullivan',
+      title: 'Founder, Neighbors',
     },
   },
   {
@@ -68,8 +68,8 @@ const projects: Project[] = [
     screenshot: '/portfolio/featured-customers.jpg',
     testimonial: {
       quote: "Their React and Django work was impeccable. Complex API integrations, form systems, responsive UI — all delivered cleanly and on schedule. They became an extension of our team within the first week.",
-      name: 'Marcus Webb',
-      title: 'VP Engineering, Featured Customers',
+      name: 'Jeff Eichel',
+      title: 'Founder & CEO, Featured Customers',
     },
   },
   {
@@ -89,10 +89,11 @@ const projects: Project[] = [
     gradient: 'linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)',
     accentColor: '#10b981',
     iconLetter: 'GA',
+    screenshot: '/portfolio/go-ask-alice.png',
     testimonial: {
       quote: "Rebuilding our health platform in Gatsby with Drupal CMS integration was a major undertaking. Global Nexus handled it with precision. The new design system they built cut our development cycle in half.",
-      name: 'Dr. Lisa Fortner',
-      title: 'Digital Director, Columbia University',
+      name: 'Kay VanValkenburgh',
+      title: 'Principal, OwnSourcing',
     },
   },
   {
@@ -115,8 +116,8 @@ const projects: Project[] = [
     screenshot: '/portfolio/torc.jpg',
     testimonial: {
       quote: "Fast, quality work with zero hand-holding needed. Their Next.js component library fit seamlessly into our design system, and the Storybook documentation they left behind has been invaluable.",
-      name: 'Ryan Park',
-      title: 'Head of Product, Torc',
+      name: 'Dave Messinger',
+      title: 'CTO & Co-Founder, Torc',
     },
   },
   {
@@ -136,10 +137,11 @@ const projects: Project[] = [
     gradient: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%)',
     accentColor: '#06b6d4',
     iconLetter: 'M',
+    screenshot: '/portfolio/mindtrip.jpg',
     testimonial: {
       quote: "We needed someone who could bridge modern AI tooling with production-grade backend infrastructure. Global Nexus delivered beyond expectations — the LangChain and Pinecone integration they built is the backbone of our product today.",
-      name: 'Jenna Liu',
-      title: 'CTO, Mindtrip',
+      name: 'Andy Moss',
+      title: 'Co-Founder & CEO, Mindtrip',
     },
   },
   {
@@ -161,8 +163,60 @@ const projects: Project[] = [
     iconLetter: 'P',
     testimonial: {
       quote: "From Nest.js APIs to React UI, everything was solid. They understood our creator audience and built features that felt native to the gaming community. Our user signups tripled in the quarter after launch.",
-      name: 'Tyler Brooks',
-      title: 'CEO, Polarace',
+      name: 'Derek Dobosz',
+      title: 'CEO, Polar Ace',
+    },
+  },
+  {
+    id: 'samurai-warlords',
+    name: 'Samurai Warlords',
+    url: 'https://samuraiwarlords.com',
+    role: 'Full Stack & Blockchain Development',
+    category: 'Web3 / Gaming',
+    tech: ['ASP.NET Core', 'C#', 'Unity', 'Solidity', 'ERC-721', 'ERC-1155', 'Base Chain', 'Web3.js'],
+    description: 'An expansive Web3 strategy and combat ecosystem built on the Base blockchain. Developed the full-stack platform in ASP.NET Core and C#, deployed NFT smart contracts, and shipped a Samurai Chess game in Unity — bridging traditional gaming with blockchain-powered play-to-earn mechanics for a dual-token economy.',
+    highlights: [
+      'Built NFT marketplace with minting, buying, selling, and bidding for samurai characters, weapons, and artifacts',
+      'Developed ERC-721 and ERC-1155 smart contracts for character NFTs, weapons, and in-game resource tokens',
+      'Implemented staking dashboard — players lock NFTs to farm $VALOR tokens and ERC-1155 resources (materials, essences)',
+      'Shipped Samurai Chess in Unity — turn-based strategy game with NFT warrior pieces, live on iOS, Android, and desktop',
+      'Architected dual-token economy ($VALOR / $HONOR) with DAO governance, tournament entry, and NFT upgrade mechanics',
+      'Integrated ASP.NET Core / C# backend with on-chain events, Web3 wallet auth, and player progression dashboards',
+    ],
+    gradient: 'linear-gradient(135deg, #0d0500 0%, #3b1000 50%, #7c1d0c 100%)',
+    accentColor: '#d97706',
+    iconLetter: 'SW',
+    screenshot: '/portfolio/samurai-warlords.png',
+    testimonial: {
+      quote: "Global Nexus brought together our smart contracts, ASP.NET backend, and Unity game into one cohesive platform. The staking dashboard and NFT marketplace alone drove our Genesis collection to sell out within 48 hours of launch.",
+      name: 'RyuZanshin (Niro)',
+      title: 'CEO, Samurai Warlords',
+    },
+  },
+  {
+    id: 'foh-boh',
+    name: 'foh&boh',
+    url: 'https://fohandboh.com',
+    role: 'Full Stack Development',
+    category: 'Hospitality Tech',
+    tech: ['React', 'Node.js', 'PostgreSQL', 'AWS SES', 'AWS S3', 'Twilio', 'Cloudflare', 'WordPress'],
+    description: "A SaaS talent marketplace built for the hospitality and retail industries. Engineered the full hiring platform — from sourcing and job board distribution through applicant tracking, automated scheduling, offer letters, and onboarding — helping 1,000+ brands like Grand Hyatt, Omni Hotels, and PF Chang's cut average hire time from 10 days to 3.",
+    highlights: [
+      'Built multi-channel candidate sourcing with direct SMS/email outreach — 99% read rate within 90 seconds',
+      'Integrated simultaneous distribution to 65+ job boards from a single posting workflow',
+      'Developed full ATS: screening videos, automated interview scheduling, offer letter generation, and onboarding docs',
+      'Implemented 100+ HRIS integrations (BambooHR, Gusto, Workday) and 10+ ATS integrations (Greenhouse, Ashby)',
+      'Created branded career page builder and smart candidate matching by commute, hours, and compensation preferences',
+      'Built analytics dashboard with job board performance tracking, conversion rates, market pay benchmarking, and rejection analysis',
+    ],
+    gradient: 'linear-gradient(135deg, #92400e 0%, #b45309 50%, #d97706 100%)',
+    accentColor: '#f59e0b',
+    iconLetter: 'FB',
+    screenshot: '/portfolio/foh-boh.png',
+    testimonial: {
+      quote: "We needed a platform that could handle the chaos of hospitality hiring — high volume, fast turnover, and operators who don't have time to waste. Global Nexus delivered exactly that. The SMS outreach and job board distribution alone transformed how our clients hire.",
+      name: 'Halle Hayes',
+      title: 'CEO & Co-Founder, foh&boh',
     },
   },
   {
@@ -185,13 +239,13 @@ const projects: Project[] = [
     screenshot: '/portfolio/trend.jpg',
     testimonial: {
       quote: "What impressed us most was the product thinking behind the code. The S3 upload pipeline, shoppable video feed, and Stripe credit system — each piece was architected for scale. Global Nexus thinks like a product team, not just engineers.",
-      name: 'Amanda Torres',
-      title: 'Product Lead, Trend',
+      name: 'Joel Otterstrom',
+      title: 'Founder & CEO, Trend',
     },
   },
 ]
 
-const categories = ['All', 'Marketplace', 'B2B SaaS', 'Health Tech', 'Tech Platform', 'AI / Travel', 'Gaming / Creator', 'Creator Economy']
+const categories = ['All', 'Marketplace', 'B2B SaaS', 'Health Tech', 'Hospitality Tech', 'Tech Platform', 'AI / Travel', 'Web3 / Gaming', 'Gaming / Creator', 'Creator Economy']
 
 function ProjectCard({project}: {project: Project}) {
   const [flipped, setFlipped] = useState(false)
