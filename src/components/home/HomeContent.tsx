@@ -2,6 +2,7 @@
 
 import {useState, useEffect} from 'react'
 import Link from 'next/link'
+import {ParticleNetwork} from '@/components/shared/ParticleNetwork'
 import {
   ArrowRight, ArrowDown, Target, Users,
   Shield, Database, DollarSign,
@@ -238,18 +239,12 @@ export default function HomeContent() {
       {/* ═══ HERO ═══ */}
       <section
         className="relative min-h-screen flex flex-col overflow-hidden"
-        style={{background: '#0d1525'}}
+        style={{background: 'linear-gradient(135deg, #1e3a5f 0%, #254b78 50%, #1e3a5f 100%)'}}
       >
-        {/* Hero background image */}
+        {/* Particle network background */}
         <div className="absolute inset-0">
-          <img
-            src="/hero.webp"
-            alt=""
-            className="w-full h-full object-cover object-right"
-            loading="eager"
-          />
-          <div className="absolute inset-0" style={{background: 'linear-gradient(to right, #0d1525 40%, rgba(13,21,37,0.85) 65%, transparent 100%)'}} />
-          <div className="absolute inset-0" style={{background: 'linear-gradient(to top, rgba(13,21,37,0.9) 0%, transparent 40%, rgba(13,21,37,0.4) 100%)'}} />
+          <ParticleNetwork className="absolute inset-0" />
+          <div className="absolute inset-0" style={{background: 'linear-gradient(to top, rgba(30,58,95,0.92) 0%, rgba(30,58,95,0.15) 50%, rgba(30,58,95,0.4) 100%)'}} />
         </div>
 
         {/* Glassmorphic orbs */}
@@ -515,7 +510,7 @@ export default function HomeContent() {
             <Link
               href="/process"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-sm font-semibold transition-all border"
-              style={{borderColor: 'rgba(10,15,26,0.3)', color: 'var(--dark)', fontFamily: 'var(--font-body)'}}
+              style={{borderColor: 'rgba(30,58,95,0.3)', color: 'var(--dark)', fontFamily: 'var(--font-body)'}}
             >
               Find Your Me / Way / Our
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>

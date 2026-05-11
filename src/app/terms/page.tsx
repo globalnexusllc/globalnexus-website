@@ -56,7 +56,7 @@ export default function TermsPage() {
       {/* Hero */}
       <section
         className="relative pt-28 pb-20 sm:pt-36 sm:pb-28 overflow-hidden"
-        style={{background: 'linear-gradient(135deg, oklch(0.14 0.01 250) 0%, oklch(0.18 0.02 260) 50%, oklch(0.14 0.01 250) 100%)'}}
+        style={{background: 'linear-gradient(135deg, #1e3a5f 0%, #254b78 50%, #1e3a5f 100%)'}}
       >
         <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none" style={{background: 'oklch(0.55 0.22 260)', filter: 'blur(80px)'}} />
         <div className="absolute bottom-0 left-0 w-[250px] h-[250px] rounded-full opacity-10 pointer-events-none" style={{background: 'oklch(0.82 0.15 75)', filter: 'blur(80px)'}} />
@@ -88,49 +88,50 @@ export default function TermsPage() {
       </section>
 
       {/* Content */}
-      <section className="py-20" style={{background: '#0d1117'}}>
+      <section className="py-20" style={{background: 'var(--warm-bg)'}}>
         <div className="max-w-3xl mx-auto px-5 sm:px-8 space-y-10">
           <p
-            className="text-sm text-white/40 uppercase tracking-widest"
-            style={{fontFamily: 'var(--font-mono)'}}
+            className="text-sm uppercase tracking-widest"
+            style={{color: 'var(--text-mid)', fontFamily: 'var(--font-mono)'}}
           >
             Last Updated: April 2026
           </p>
 
           {sections.map((s) => (
-            <div key={s.title}>
+            <div key={s.title} className="border-b pb-10 last:border-0" style={{borderColor: "rgba(139,69,19,0.1)"}}>
               <h2
-                className="text-2xl font-bold text-white mb-4"
-                style={{fontFamily: 'var(--font-display)'}}
+                className="text-2xl font-bold mb-4"
+                style={{color: 'var(--text-dark)', fontFamily: 'var(--font-display)'}}
               >
                 {s.title}
               </h2>
               {s.contact ? (
-                <p className="text-white/70 text-base leading-relaxed" style={{fontFamily: 'var(--font-body)'}}>
+                <p className="text-base leading-relaxed" style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>
                   For questions about these terms, contact us at:{' '}
                   <a
-                    href="mailto:hello@globalnexus.com"
-                    className="text-[oklch(0.82_0.15_75)] hover:underline"
+                    href="mailto:hello@globalnexus.one"
+                    className="hover:underline font-medium"
+                    style={{color: 'var(--dark)'}}
                   >
-                    hello@globalnexus.com
+                    hello@globalnexus.one
                   </a>
                 </p>
               ) : (
-                <p className="text-white/70 text-base leading-relaxed" style={{fontFamily: 'var(--font-body)'}}>
+                <p className="text-base leading-relaxed" style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>
                   {s.body}
                 </p>
               )}
             </div>
           ))}
 
-          <div className="pt-10 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <p className="text-white/30 text-sm" style={{fontFamily: 'var(--font-body)'}}>
+          <div className="pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p className="text-sm" style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>
               Global Nexus, Inc. · Colbert, GA
             </p>
             <Link
               href="/privacy"
-              className="text-sm font-semibold text-[oklch(0.82_0.15_75)] hover:underline"
-              style={{fontFamily: 'var(--font-body)'}}
+              className="text-sm font-semibold hover:underline"
+              style={{color: 'var(--dark)', fontFamily: 'var(--font-body)'}}
             >
               Privacy Policy →
             </Link>

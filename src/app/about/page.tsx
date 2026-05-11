@@ -40,7 +40,7 @@ export default function AboutPage() {
       {/* ═══ HERO ═══ */}
       <section
         className="relative pt-28 pb-20 sm:pt-36 sm:pb-28 overflow-hidden"
-        style={{background: 'linear-gradient(135deg, oklch(0.12 0.01 250) 0%, oklch(0.16 0.02 260) 50%, oklch(0.12 0.01 250) 100%)'}}
+        style={{background: 'linear-gradient(135deg, #1e3a5f 0%, #254b78 50%, #1e3a5f 100%)'}}
       >
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-15 pointer-events-none" style={{background: 'oklch(0.55 0.15 30)', filter: 'blur(80px)'}} />
         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full opacity-10 pointer-events-none" style={{background: 'oklch(0.82 0.15 75)', filter: 'blur(80px)'}} />
@@ -111,22 +111,22 @@ export default function AboutPage() {
       </section>
 
       {/* ═══ WHAT WE DO ═══ */}
-      <section className="py-20 sm:py-28" style={{background: '#0d1117'}}>
+      <section className="py-20 sm:py-28" style={{background: 'var(--warm-bg)'}}>
         <div className="max-w-4xl mx-auto px-5 sm:px-8">
-          <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{color: 'oklch(0.82 0.15 75)', fontFamily: 'var(--font-body)'}}>
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{color: 'var(--dark)', fontFamily: 'var(--font-body)'}}>
             What We Do
           </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-white tracking-tight" style={{fontFamily: 'var(--font-display)'}}>
+          <h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight" style={{color: 'var(--text-dark)', fontFamily: 'var(--font-display)'}}>
             Full Stack, End to End.
           </h2>
-          <p className="mt-6 text-base sm:text-lg leading-relaxed max-w-3xl" style={{color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-body)'}}>
+          <p className="mt-6 text-base sm:text-lg leading-relaxed max-w-3xl" style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>
             We don&apos;t specialize in one layer. We own the entire product — from Figma designs and React interfaces to Django APIs, AI integrations, database architecture, and cloud infrastructure.
           </p>
           <div className="mt-10 grid sm:grid-cols-2 gap-4">
             {expertise.map((item) => (
-              <div key={item} className="flex items-center gap-3 rounded-lg px-4 py-3 border" style={{background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)'}}>
-                <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{background: 'oklch(0.82 0.15 75)'}} />
-                <span className="text-sm" style={{color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-body)'}}>{item}</span>
+              <div key={item} className="flex items-center gap-3 rounded-lg px-4 py-3 border" style={{background: '#ffffff', borderColor: 'rgba(30,58,95,0.1)'}}>
+                <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{background: 'var(--dark)'}} />
+                <span className="text-sm" style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>{item}</span>
               </div>
             ))}
           </div>

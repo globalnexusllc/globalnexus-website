@@ -387,7 +387,7 @@ export default function PortfolioClient() {
       {/* ═══ HERO ═══ */}
       <section
         className="relative pt-28 pb-16 sm:pt-36 sm:pb-20 overflow-hidden"
-        style={{background: 'linear-gradient(135deg, oklch(0.12 0.01 250) 0%, oklch(0.16 0.02 260) 50%, oklch(0.12 0.01 250) 100%)'}}
+        style={{background: 'linear-gradient(135deg, #1e3a5f 0%, #254b78 50%, #1e3a5f 100%)'}}
       >
         <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full opacity-15 pointer-events-none" style={{background: 'oklch(0.55 0.15 30)', filter: 'blur(80px)'}} />
         <div className="absolute bottom-0 left-0 w-[250px] h-[250px] rounded-full opacity-10 pointer-events-none" style={{background: 'oklch(0.82 0.15 75)', filter: 'blur(80px)'}} />
@@ -460,20 +460,32 @@ export default function PortfolioClient() {
       </section>
 
       {/* ═══ CTA ═══ */}
-      <section className="py-16 sm:py-20" style={{background: '#0d1117'}}>
-        <div className="max-w-4xl mx-auto px-5 sm:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{fontFamily: 'var(--font-display)'}}>
+      <section className="py-20 sm:py-28" style={{background: 'var(--rust)'}}>
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 text-center">
+          <h2
+            className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight"
+            style={{fontFamily: 'var(--font-display)'}}
+          >
             Want to be next?
           </h2>
-          <p className="text-white/60 text-base leading-relaxed mb-8 max-w-xl mx-auto" style={{fontFamily: 'var(--font-body)'}}>
+          <p
+            className="text-base sm:text-lg leading-relaxed mb-3 text-white/90 max-w-xl mx-auto"
+            style={{fontFamily: 'var(--font-body)'}}
+          >
             Tell us what you&apos;re building and we&apos;ll tell you exactly how we&apos;d approach it.
+          </p>
+          <p
+            className="text-sm mb-10 max-w-lg mx-auto"
+            style={{color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-body)'}}
+          >
+            No intake forms. No retainers up front. Just a direct conversation with engineers.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-md text-sm font-semibold text-white transition-all hover:opacity-90"
-            style={{background: 'oklch(0.55 0.15 30)', fontFamily: 'var(--font-body)'}}
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-md text-sm font-bold transition-all hover:opacity-90"
+            style={{background: '#ffffff', color: 'var(--rust)', fontFamily: 'var(--font-body)'}}
           >
-            Start a Conversation
+            Start a Project
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </Link>
         </div>

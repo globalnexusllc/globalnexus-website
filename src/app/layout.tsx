@@ -42,7 +42,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
               'Global Nexus is a full-stack software development and digital advisory firm based in Colbert, GA.',
             address: settings?.address,
             phone: '+19042995409',
-            email: 'hello@globalnexus.com',
+            email: 'hello@globalnexus.one',
             socialLinks: [],
           })}
         />

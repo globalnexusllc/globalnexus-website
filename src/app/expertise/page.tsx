@@ -50,7 +50,7 @@ export default function ExpertisePage() {
         className="relative pt-28 pb-20 sm:pt-36 sm:pb-28 overflow-hidden"
         style={{
           background:
-            'linear-gradient(135deg, oklch(0.14 0.01 250) 0%, oklch(0.18 0.02 260) 50%, oklch(0.14 0.01 250) 100%)',
+            'linear-gradient(135deg, #1e3a5f 0%, #254b78 50%, #1e3a5f 100%)',
         }}
       >
         <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8">

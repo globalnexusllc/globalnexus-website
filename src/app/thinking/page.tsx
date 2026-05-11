@@ -100,7 +100,7 @@ export default async function ThinkingPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 sm:py-28" style={{background: 'oklch(0.14 0.02 260)'}}>
+      <section className="py-20 sm:py-28" style={{background: 'var(--dark)'}}>
         <div className="max-w-3xl mx-auto px-5 sm:px-8 text-center">
           <p className="text-xs font-semibold tracking-[0.2em] uppercase text-[oklch(0.82_0.15_75)] mb-4" style={{fontFamily: 'var(--font-mono)'}}>
             A thought for you

@@ -15,7 +15,7 @@ const companyLinks = [
 
 export default function Footer() {
   return (
-    <footer style={{background: 'oklch(0.14 0.01 250)'}} className="text-white/60 py-16">
+    <footer style={{background: 'var(--dark)'}} className="text-white/60 py-16">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-12">
 
@@ -28,11 +28,11 @@ export default function Footer() {
               Full-stack software development & digital advisory. Based in Colbert, GA.
             </p>
             <a
-              href="mailto:hello@globalnexus.com"
+              href="mailto:hello@globalnexus.one"
               className="text-xs text-white/40 hover:text-white transition-colors block mb-1"
               style={{fontFamily: 'var(--font-body)'}}
             >
-              hello@globalnexus.com
+              hello@globalnexus.one
             </a>
             <a
               href="tel:+19042995409"

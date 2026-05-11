@@ -39,13 +39,13 @@ export default function Hero({headline, subheadline, backgroundImage, ctaText, c
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to right, var(--dark), rgba(10,15,26,0.85), transparent)',
+            background: 'linear-gradient(to right, var(--dark), rgba(30,58,95,0.85), transparent)',
           }}
         />
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to top, rgba(10,15,26,0.9), transparent, rgba(10,15,26,0.4))',
+            background: 'linear-gradient(to top, rgba(30,58,95,0.9), transparent, rgba(30,58,95,0.4))',
           }}
         />
       </div>

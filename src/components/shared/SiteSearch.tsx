@@ -158,7 +158,7 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
             className="relative w-full max-w-2xl mx-2 sm:mx-4 rounded-2xl overflow-hidden flex flex-col"
             style={{
               maxHeight: '75vh',
-              background: 'rgba(10,15,26,0.95)',
+              background: 'rgba(30,58,95,0.97)',
               border: '1px solid rgba(255,255,255,0.10)',
               backdropFilter: 'blur(24px)',
               boxShadow: '0 25px 50px rgba(0,0,0,0.5)',

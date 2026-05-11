@@ -4,14 +4,14 @@
 :root {
   --gold: #d4a843;
   --gold-light: #e8c96a;
-  --dark: #0d1525;
-  --dark-mid: #111827;
-  --dark-card: #131d2e;
+  --dark: #1e3a5f;
+  --dark-mid: #254b78;
+  --dark-card: #1e3a5f;
   --warm-bg: #f5f0e8;
   --warm-light: #faf7f2;
-  --rust: #8b4513;
-  --text-dark: #2a1f14;
-  --text-mid: #6b5e52;
+  --rust: #b05a2f;
+  --text-dark: #1a2744;
+  --text-mid: #4a607a;
 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
@@ -77,16 +77,16 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
 /* ── SECTION BACKGROUNDS ── */
-.section-dark { background-color: oklch(0.22 0.02 250); color: oklch(0.92 0.01 80); }
+.section-dark { background-color: oklch(0.32 0.07 240); color: oklch(0.96 0.01 80); }
 .section-warm { background-color: oklch(0.94 0.03 80); color: oklch(0.18 0.03 50); }
-.section-light { background-color: oklch(1 0 0); color: oklch(0.18 0.03 50); }
+.section-light { background-color: oklch(0.97 0.015 75); color: oklch(0.18 0.03 50); }
 .section-blue { background-color: oklch(0.45 0.22 260); color: oklch(0.98 0 0); }
 
 /* ── GLASSMORPHIC DESIGN SYSTEM ── */
 .glass-card { background: rgba(255,255,255,0.06); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; }
 .glass-card-warm { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255,255,255,0.4); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
-.glass-card-dark { background: rgba(10,15,26,0.6); backdrop-filter: blur(24px) saturate(200%); -webkit-backdrop-filter: blur(24px) saturate(200%); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.glass-card-dark { background: rgba(30,58,95,0.65); backdrop-filter: blur(24px) saturate(200%); -webkit-backdrop-filter: blur(24px) saturate(200%); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
 .glass-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; pointer-events: none; }
 .glass-orb-amber { background: oklch(0.82 0.15 75); }
-.glass-orb-blue { background: oklch(0.55 0.22 260); }
-.glass-orb-rust { background: oklch(0.55 0.15 30); }
+.glass-orb-blue { background: oklch(0.65 0.18 230); }
+.glass-orb-rust { background: oklch(0.65 0.15 30); }

@@ -57,17 +57,17 @@ export default async function CategoryPage({
   const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE)
 
   return (
-    <div style={{background: 'var(--dark)', minHeight: '100vh'}}>
+    <div style={{minHeight: '100vh'}}>
       {/* Page hero */}
       <div
         className="pt-32 pb-16 px-5 sm:px-8"
-        style={{background: 'var(--dark-mid)'}}
+        style={{background: 'linear-gradient(135deg, #1e3a5f 0%, #254b78 50%, #1e3a5f 100%)'}}
       >
         <div className="max-w-7xl mx-auto">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-sm font-medium mb-6 transition-opacity hover:opacity-70"
-            style={{color: 'var(--gold)', fontFamily: 'var(--font-body)'}}
+            style={{color: 'oklch(0.82 0.15 75)', fontFamily: 'var(--font-body)'}}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -76,7 +76,7 @@ export default async function CategoryPage({
           </Link>
           <p
             className="text-xs font-semibold uppercase tracking-[0.2em] mb-3"
-            style={{color: 'var(--gold)', fontFamily: 'var(--font-body)'}}
+            style={{color: 'oklch(0.82 0.15 75)', fontFamily: 'var(--font-body)'}}
           >
             Category
           </p>
@@ -86,64 +86,68 @@ export default async function CategoryPage({
           >
             {currentCategory.title}
           </h1>
-          <p style={{color: 'rgba(255,255,255,0.35)', fontFamily: 'var(--font-mono)', fontSize: '0.875rem'}}>
+          <p style={{color: 'rgba(255,255,255,0.45)', fontFamily: 'var(--font-mono)', fontSize: '0.875rem'}}>
             {totalCount} {totalCount === 1 ? 'post' : 'posts'}
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-12">
-        {/* Category filter */}
-        <div className="flex flex-wrap gap-2 mb-10">
-          <Link
-            href="/blog"
-            className="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.12em] transition-all hover:opacity-80"
-            style={{
-              background: 'rgba(255,255,255,0.06)',
-              color: 'rgba(255,255,255,0.6)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              fontFamily: 'var(--font-body)',
-            }}
-          >
-            All
-          </Link>
-          {categories?.map((cat: {_id: string; title: string; slug: {current: string}}) => (
+      {/* Content */}
+      <section className="py-12" style={{background: 'var(--warm-bg)'}}>
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          {/* Category filter */}
+          <div className="flex flex-wrap gap-2 mb-10">
             <Link
-              key={cat._id}
-              href={`/blog/category/${cat.slug.current}`}
+              href="/blog"
               className="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.12em] transition-all hover:opacity-80"
-              style={
-                cat.slug.current === slug
-                  ? {background: 'var(--gold)', color: 'var(--dark)', fontFamily: 'var(--font-body)'}
-                  : {
-                      background: 'rgba(255,255,255,0.06)',
-                      color: 'rgba(255,255,255,0.6)',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      fontFamily: 'var(--font-body)',
-                    }
-              }
+              style={{
+                background: 'rgba(30,58,95,0.08)',
+                color: 'var(--text-mid)',
+                border: '1px solid rgba(30,58,95,0.12)',
+                fontFamily: 'var(--font-body)',
+              }}
             >
-              {cat.title}
+              All
             </Link>
-          ))}
-        </div>
-
-        {posts?.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post: Record<string, unknown>) => (
-              <PostCard key={post._id as string} post={post} />
+            {categories?.map((cat: {_id: string; title: string; slug: {current: string}}) => (
+              <Link
+                key={cat._id}
+                href={`/blog/category/${cat.slug.current}`}
+                className="px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.12em] transition-all hover:opacity-80"
+                style={
+                  cat.slug.current === slug
+                    ? {background: 'var(--dark)', color: '#ffffff', fontFamily: 'var(--font-body)'}
+                    : {
+                        background: 'rgba(30,58,95,0.06)',
+                        color: 'var(--text-mid)',
+                        border: '1px solid rgba(30,58,95,0.12)',
+                        fontFamily: 'var(--font-body)',
+                      }
+                }
+              >
+                {cat.title}
+              </Link>
             ))}
           </div>
-        ) : (
-          <p style={{color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)'}}>No posts in this category yet.</p>
-        )}
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          basePath={`/blog/category/${slug}`}
-        />
-      </div>
+          {posts?.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {posts.map((post: Record<string, unknown>) => (
+                <PostCard key={post._id as string} post={post} variant="light" />
+              ))}
+            </div>
+          ) : (
+            <p style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>No posts in this category yet.</p>
+          )}
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            basePath={`/blog/category/${slug}`}
+            variant="light"
+          />
+        </div>
+      </section>
     </div>
   )
 }

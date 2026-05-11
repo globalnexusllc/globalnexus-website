@@ -36,7 +36,7 @@ export default function ContactPage() {
       {/* ═══ HERO ═══ */}
       <section
         className="relative pt-28 pb-20 sm:pt-36 sm:pb-28 overflow-hidden"
-        style={{background: 'linear-gradient(135deg, oklch(0.12 0.01 250) 0%, oklch(0.16 0.02 260) 50%, oklch(0.12 0.01 250) 100%)'}}
+        style={{background: 'linear-gradient(135deg, #1e3a5f 0%, #254b78 50%, #1e3a5f 100%)'}}
       >
         <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full opacity-15 pointer-events-none" style={{background: 'oklch(0.55 0.15 30)', filter: 'blur(80px)'}} />
         <div className="absolute bottom-0 left-0 w-[250px] h-[250px] rounded-full opacity-10 pointer-events-none" style={{background: 'oklch(0.82 0.15 75)', filter: 'blur(80px)'}} />
@@ -178,7 +178,7 @@ export default function ContactPage() {
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.15 30)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                   <div>
                     <div className="text-xs font-medium uppercase tracking-wider mb-1" style={{color: 'oklch(0.4 0.02 50)', fontFamily: 'var(--font-body)'}}>Email</div>
-                    <a href="mailto:hello@globalnexus.com" className="text-sm hover:underline" style={{color: 'oklch(0.55 0.15 30)', fontFamily: 'var(--font-body)'}}>hello@globalnexus.com</a>
+                    <a href="mailto:hello@globalnexus.one" className="text-sm hover:underline" style={{color: 'oklch(0.55 0.15 30)', fontFamily: 'var(--font-body)'}}>hello@globalnexus.one</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
