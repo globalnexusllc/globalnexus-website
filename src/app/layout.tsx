@@ -7,14 +7,49 @@ import {client} from '@/lib/sanity/client'
 import {siteSettingsQuery} from '@/lib/sanity/queries'
 import JsonLd, {organizationJsonLd} from '@/components/shared/JsonLd'
 import ScrollToTop from '@/components/shared/ScrollToTop'
+import SeoKeywords from '@/components/shared/SeoKeywords'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Global Nexus - Full Stack Software Development',
+    default: 'Global Nexus - Software Engineering Services',
     template: '%s | Global Nexus',
   },
   description:
-    'Global Nexus is a full-stack software development and digital advisory firm based in Colbert, GA. We build high-performance web apps, AI-powered platforms, and scalable digital products.',
+    'Global Nexus is a software engineering and digital advisory firm based in Colbert, GA. We build high-performance web apps, AI-powered platforms, and scalable digital products.',
+  keywords: [
+    'software engineering firm',
+    'custom software development',
+    'software development company',
+    'hire software engineers',
+    'React developers',
+    'Angular developers',
+    'Vue.js developers',
+    'Node.js development',
+    'NestJS development',
+    'Prisma ORM',
+    'Python development',
+    'Django development',
+    'FastAPI development',
+    'Flask development',
+    'C# .NET Core development',
+    'ASP.NET MVC',
+    'Entity Framework',
+    'Azure cloud development',
+    'serverless architecture',
+    'AWS Lambda',
+    'AWS CDK',
+    'Serverless Framework',
+    'event-driven architecture',
+    'AI software development',
+    'LangChain developers',
+    'blockchain development',
+    'Solidity smart contracts',
+    'enterprise SaaS development',
+    'software engineering Colbert GA',
+    'software development Georgia',
+    'agile software development',
+    'software development lifecycle',
+  ],
   icons: {
     icon: '/globe-icon.svg',
     shortcut: '/globe-icon.svg',
@@ -39,7 +74,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           data={organizationJsonLd({
             name: 'Global Nexus',
             description:
-              'Global Nexus is a full-stack software development and digital advisory firm based in Colbert, GA.',
+              'Global Nexus is a software engineering and digital advisory firm based in Colbert, GA.',
             address: settings?.address,
             phone: '+19042995409',
             email: 'hello@globalnexus.one',
@@ -48,6 +83,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
         />
         <Header />
         <main className="min-h-screen">{children}</main>
+        <SeoKeywords />
         {settings?.googleAnalyticsId && (
           <>
             <Script

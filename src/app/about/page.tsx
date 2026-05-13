@@ -4,7 +4,7 @@ import type {Metadata} from 'next'
 export const metadata: Metadata = {
   title: 'About | Global Nexus',
   description:
-    'Global Nexus is a full-stack software development and digital advisory firm based in Colbert, GA. We build high-performance web apps, AI-powered platforms, and scalable digital products.',
+    'Global Nexus is a software engineering and digital advisory firm based in Colbert, GA. We build high-performance web apps, AI-powered platforms, and scalable digital products.',
 }
 
 const values = [
@@ -18,6 +18,7 @@ const values = [
 
 const stats = [
   {value: '50+', label: 'Projects Delivered'},
+  {value: '10+', label: 'Yrs per Engineer'},
   {value: '100%', label: 'Client Satisfaction'},
   {value: 'Colbert, GA', label: 'Headquarters'},
 ]
@@ -67,7 +68,7 @@ export default function AboutPage() {
             className="mt-6 text-base sm:text-lg leading-relaxed max-w-2xl"
             style={{color: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-body)'}}
           >
-            Global Nexus is a full-stack software development and digital advisory firm based in Colbert, Georgia. We partner with startups, scale-ups, and enterprise clients to design, build, and ship high-performance digital products.
+            Global Nexus is a software engineering and digital advisory firm based in Colbert, Georgia. We partner with startups, scale-ups, and enterprise clients to design, build, and ship high-performance digital products.
           </p>
 
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl">
@@ -117,7 +118,7 @@ export default function AboutPage() {
             What We Do
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight" style={{color: 'var(--text-dark)', fontFamily: 'var(--font-display)'}}>
-            Full Stack, End to End.
+            Software Engineering, End to End.
           </h2>
           <p className="mt-6 text-base sm:text-lg leading-relaxed max-w-3xl" style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>
             We don&apos;t specialize in one layer. We own the entire product — from Figma designs and React interfaces to Django APIs, AI integrations, database architecture, and cloud infrastructure.

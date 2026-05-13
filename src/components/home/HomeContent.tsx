@@ -11,7 +11,7 @@ import {
 
 /* ── CLIENT LOGO WALL ── */
 const tier1Clients = [
-  {name: 'Neighbors', context: 'Full stack platform · Chef marketplace'},
+  {name: 'Neighbors', context: 'Software engineering · Platform · Chef marketplace'},
   {name: 'Featured Customers', context: 'React + Django · B2B SaaS'},
   {name: 'Go Ask Alice!', context: 'Gatsby + Drupal · Columbia University'},
   {name: 'Torc', context: 'Next.js · Tech talent marketplace'},
@@ -26,7 +26,7 @@ const engagements = [
   {
     label: 'Mindtrip',
     stats: 'AI travel platform shipped in 90 days',
-    detail: 'Built full-stack AI travel assistant with FastAPI, LangChain, Pinecone vector search, and LlamaIndex. Powered real-time conversational trip planning with intelligent, intent-based recommendations.',
+    detail: 'Built end-to-end AI travel assistant with FastAPI, LangChain, Pinecone vector search, and LlamaIndex. Powered real-time conversational trip planning with intelligent, intent-based recommendations.',
     accent: 'oklch(0.82 0.15 75)',
   },
   {
@@ -264,7 +264,7 @@ export default function HomeContent() {
                     className="text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase text-white/60"
                     style={{fontFamily: 'var(--font-body)'}}
                   >
-                    Full Stack Agency · Colbert, GA
+                    Software Engineering Firm · Colbert, GA
                   </span>
                 </span>
               </div>

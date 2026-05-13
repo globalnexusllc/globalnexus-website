@@ -25,7 +25,7 @@ export default function Footer() {
               <Logo variant="light" size="md" />
             </Link>
             <p className="text-xs text-white/30 mb-3 leading-relaxed" style={{fontFamily: 'var(--font-body)'}}>
-              Full-stack software development & digital advisory. Based in Colbert, GA.
+              Software engineering & digital advisory. Based in Colbert, GA.
             </p>
             <a
               href="mailto:hello@globalnexus.one"

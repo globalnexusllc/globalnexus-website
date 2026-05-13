@@ -46,12 +46,12 @@ export const pageBySlugQuery = groq`
   }
 `
 
-// RampRate-related filter — excludes legacy content by tag or title keyword
-const excludeRampRate = `!(lower(title) match "*ramprate*") && !("ramprate" in categories[]->slug.current)`
+// Legacy content filter — excludes pre-Global-Nexus legacy posts by tag or title keyword
+const excludeLegacyContent = `!(lower(title) match "*ramprate*") && !("ramprate" in categories[]->slug.current)`
 
-// Blog Posts (excludes thinking section, excludes RampRate-related)
+// Blog Posts (excludes thinking section, excludes legacy content)
 export const postsQuery = groq`
-  *[_type == "post" && section != "thinking" && ${excludeRampRate}] | order(publishedAt desc) [$start...$end]{
+  *[_type == "post" && section != "thinking" && ${excludeLegacyContent}] | order(publishedAt desc) [$start...$end]{
     _id,
     title,
     slug,
@@ -76,11 +76,11 @@ export const postBySlugQuery = groq`
   }
 `
 
-export const postCountQuery = groq`count(*[_type == "post" && section != "thinking" && ${excludeRampRate}])`
+export const postCountQuery = groq`count(*[_type == "post" && section != "thinking" && ${excludeLegacyContent}])`
 
-// Thinking Posts (excludes RampRate-related)
+// Thinking Posts (excludes legacy content)
 export const thinkingPostsQuery = groq`
-  *[_type == "post" && section == "thinking" && ${excludeRampRate}] | order(publishedAt desc) [$start...$end]{
+  *[_type == "post" && section == "thinking" && ${excludeLegacyContent}] | order(publishedAt desc) [$start...$end]{
     _id,
     title,
     slug,
@@ -91,7 +91,7 @@ export const thinkingPostsQuery = groq`
   }
 `
 
-export const thinkingPostCountQuery = groq`count(*[_type == "post" && section == "thinking" && ${excludeRampRate}])`
+export const thinkingPostCountQuery = groq`count(*[_type == "post" && section == "thinking" && ${excludeLegacyContent}])`
 
 // Categories
 export const categoriesQuery = groq`
@@ -103,7 +103,7 @@ export const categoriesQuery = groq`
 `
 
 export const postsByCategoryQuery = groq`
-  *[_type == "post" && section != "thinking" && $categorySlug in categories[]->slug.current && ${excludeRampRate}] | order(publishedAt desc) [$start...$end]{
+  *[_type == "post" && section != "thinking" && $categorySlug in categories[]->slug.current && ${excludeLegacyContent}] | order(publishedAt desc) [$start...$end]{
     _id,
     title,
     slug,
@@ -115,7 +115,7 @@ export const postsByCategoryQuery = groq`
 `
 
 export const postCountByCategoryQuery = groq`
-  count(*[_type == "post" && section != "thinking" && $categorySlug in categories[]->slug.current && ${excludeRampRate}])
+  count(*[_type == "post" && section != "thinking" && $categorySlug in categories[]->slug.current && ${excludeLegacyContent}])
 `
 
 // Team Members

@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from 'next/server'
-import {GLOBAL_NEXUS_SYSTEM_PROMPT} from '@/lib/ramprate-knowledge'
+import {GLOBAL_NEXUS_SYSTEM_PROMPT} from '@/lib/global-nexus-knowledge'
 
 interface ChatMsg {
   role: 'user' | 'assistant'
