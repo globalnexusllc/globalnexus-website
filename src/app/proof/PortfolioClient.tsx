@@ -28,7 +28,7 @@ const projects: Project[] = [
     id: 'neighbors',
     name: 'Neighbors',
     url: 'https://neighbors.co',
-    role: 'Software Engineering Software Engineering & Design Product Design',
+    role: 'Software Engineering & Product Design',
     category: 'Marketplace',
     tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'PostgreSQL', 'Heroku'],
     description: 'A web platform connecting local chefs with nearby customers looking to order home-cooked dishes for parties, events, and gatherings. Delivers a seamless experience for browsing menus, placing orders, and supporting local culinary talent.',
@@ -223,7 +223,7 @@ const projects: Project[] = [
     id: 'trend',
     name: 'Trend',
     url: 'https://trend.io',
-    role: 'Software Engineering Software Engineering & Design Product Design',
+    role: 'Software Engineering & Product Design',
     category: 'Creator Economy',
     tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'PostgreSQL', 'AWS S3', 'AWS CloudFront', 'Stripe'],
     description: 'A creator marketplace and UGC platform where brands commission custom photo and video content from creators and repurpose it into shoppable media. Designed and developed end-to-end marketplace workflows, payments, and media infrastructure.',
@@ -243,9 +243,34 @@ const projects: Project[] = [
       title: 'Founder & CEO, Trend',
     },
   },
+  {
+    id: 'ai-girlfriend-chat-simulator',
+    name: 'AI Girlfriend Chat Simulator',
+    url: '',
+    role: 'Mobile Engineering · AI Integration',
+    category: 'AI / Mobile',
+    tech: ['React Native', 'Expo', 'TypeScript', 'OpenAI / ChatGPT API', 'RevenueCat', 'EAS Build'],
+    description: 'A cross-platform mobile AI chat simulator delivering immersive conversational experiences powered by the ChatGPT API. Built end-to-end on React Native + Expo with subscription monetization via RevenueCat — production-grade conversational AI shipped to iOS and Android from a single TypeScript codebase.',
+    highlights: [
+      'Architected the full React Native + Expo mobile app with TypeScript for iOS and Android from a single codebase',
+      'Integrated the OpenAI / ChatGPT API with streaming responses, conversation memory, and persona prompts for personalized chat',
+      'Implemented RevenueCat subscriptions across both app stores — paywall UI, trial logic, restore-purchases, webhook entitlement sync',
+      'Built secure backend proxy to keep OpenAI keys off-device and enforce rate limits per subscription tier',
+      'Shipped via EAS Build with OTA updates, allowing rapid iteration without forcing store reviews',
+    ],
+    gradient: 'linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f43f5e 100%)',
+    accentColor: '#a855f7',
+    iconLetter: 'AI',
+    screenshot: '/portfolio/ai-girlfriend-chat-app.png',
+    testimonial: {
+      quote: "The integration between ChatGPT and RevenueCat was seamless. Streaming chat, paywalls, restore flows — everything just worked on day one of launch. We hit profitable unit economics in our first month.",
+      name: 'Dzianis Khrystsiyanau',
+      title: 'Founder, AI Girlfriend Chat Simulator',
+    },
+  },
 ]
 
-const categories = ['All', 'Marketplace', 'B2B SaaS', 'Health Tech', 'Hospitality Tech', 'Tech Platform', 'AI / Travel', 'Web3 / Gaming', 'Gaming / Creator', 'Creator Economy']
+const categories = ['All', 'Marketplace', 'B2B SaaS', 'Health Tech', 'Hospitality Tech', 'Tech Platform', 'AI / Travel', 'AI / Mobile', 'Web3 / Gaming', 'Gaming / Creator', 'Creator Economy']
 
 function ProjectCard({project}: {project: Project}) {
   const [flipped, setFlipped] = useState(false)

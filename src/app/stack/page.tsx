@@ -82,11 +82,11 @@ const stacks: StackEntry[] = [
   },
   {
     label: 'Mobile Application',
-    category: 'Mobile · Cross-Platform',
-    stack: ['React Native', 'Expo', 'TypeScript', 'TanStack Query', 'Reanimated'],
+    category: 'Mobile · Native & Cross-Platform',
+    stack: ['React Native', 'Flutter / Dart', 'Swift (iOS)', 'Kotlin (Android)', 'Expo', 'TypeScript'],
     reasoning:
-      "React Native with Expo lets us share ~80% of code with the React web app while deploying native binaries to iOS and Android. Expo handles build infrastructure, OTA updates, and native module access. Reanimated brings 60fps gesture-driven UI without bridging overhead.",
-    callout: 'React Native is used in Instagram, Discord, Shopify, and Tesla apps.',
+      "React Native with Expo is our default when ~80% code-share with a React web app is the win — fast iteration, OTA updates, single TypeScript codebase. Flutter / Dart is the right call when pixel-perfect custom UI and 60fps animations matter more than web code reuse. We drop to native — Swift for iOS, Kotlin for Android — when the app demands platform-specific APIs (CarPlay, Health, Wallet, AR) or when long-term maintenance favors first-party tooling over a cross-platform layer.",
+    callout: 'Flutter ships true 60fps via Skia rendering; React Native powers Instagram, Discord, Shopify, and Tesla.',
   },
   {
     label: 'Serverless & Event-Driven',
