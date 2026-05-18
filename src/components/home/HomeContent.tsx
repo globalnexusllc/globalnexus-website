@@ -57,38 +57,38 @@ const diffRows = [
 const testimonials = [
   {
     quote: "Global Nexus delivered our full platform from scratch — frontend, backend, and database — with a level of craftsmanship we hadn't seen before. The checkout flow alone boosted our order conversions by 40%.",
-    name: 'Sarah Chen',
-    title: 'Co-Founder, Neighbors',
+    name: 'Chris Sullivan',
+    title: 'Founder, Neighbors',
   },
   {
     quote: "Their React and Django work was impeccable. Complex API integrations, form systems, responsive UI — all delivered cleanly and on schedule. They became an extension of our team within the first week.",
-    name: 'Marcus Webb',
-    title: 'VP Engineering, Featured Customers',
+    name: 'Jeff Eichel',
+    title: 'Founder & CEO, Featured Customers',
   },
   {
     quote: "Rebuilding our health platform in Gatsby with Drupal CMS integration was a major undertaking. Global Nexus handled it with precision. The new design system they built cut our development cycle in half.",
-    name: 'Dr. Lisa Fortner',
-    title: 'Digital Director, Columbia University',
+    name: 'Kay VanValkenburgh',
+    title: 'Principal, OwnSourcing',
   },
   {
     quote: "Fast, quality work with zero hand-holding needed. Their Next.js component library fit seamlessly into our design system, and the Storybook documentation they left behind has been invaluable.",
-    name: 'Ryan Park',
-    title: 'Head of Product, Torc',
+    name: 'Dave Messinger',
+    title: 'CTO & Co-Founder, Torc',
   },
   {
     quote: "We needed someone who could bridge modern AI tooling with production-grade backend infrastructure. Global Nexus delivered beyond expectations — the LangChain and Pinecone integration they built is the backbone of our product today.",
-    name: 'Jenna Liu',
-    title: 'CTO, Mindtrip',
+    name: 'Andy Moss',
+    title: 'Co-Founder & CEO, Mindtrip',
   },
   {
     quote: "From Nest.js APIs to React UI, everything was solid. They understood our creator audience and built features that felt native to the gaming community. Our user signups tripled in the quarter after launch.",
-    name: 'Tyler Brooks',
-    title: 'CEO, Polarace',
+    name: 'Derek Dobosz',
+    title: 'CEO, Polar Ace',
   },
   {
     quote: "What impressed us most was the product thinking behind the code. The S3 upload pipeline, shoppable video feed, and Stripe credit system — each piece was architected for scale. Global Nexus thinks like a product team, not just engineers.",
-    name: 'Amanda Torres',
-    title: 'Product Lead, Trend',
+    name: 'Joel Otterstrom',
+    title: 'Founder & CEO, Trend',
   },
 ]
 
@@ -447,8 +447,27 @@ export default function HomeContent() {
             </h2>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[560px]">
+          {/* Mobile: stacked cards (one per row); Desktop: 3-column table */}
+          <div className="sm:hidden space-y-4">
+            {diffRows.map((row, i) => (
+              <div key={i} className="rounded-xl p-5" style={{background: '#ffffff', border: '1px solid rgba(30,58,95,0.08)', boxShadow: '0 2px 12px rgba(30,58,95,0.05)'}}>
+                <div className="grid grid-cols-[1fr_auto] gap-3 items-start pb-3 mb-3" style={{borderBottom: '1px solid rgba(30,58,95,0.06)'}}>
+                  <span className="text-sm" style={{fontFamily: 'var(--font-body)', color: 'var(--text-mid)'}}>{row.trad}</span>
+                  <span className="text-[10px] uppercase tracking-[0.15em] font-semibold shrink-0" style={{fontFamily: 'var(--font-mono)', color: 'var(--text-mid)', opacity: 0.6}}>Typical Agency</span>
+                </div>
+                <div className="grid grid-cols-[1fr_auto] gap-3 items-start pb-3 mb-3" style={{borderBottom: '1px solid rgba(30,58,95,0.06)'}}>
+                  <span className="text-sm" style={{fontFamily: 'var(--font-body)', color: 'var(--text-mid)'}}>{row.broker}</span>
+                  <span className="text-[10px] uppercase tracking-[0.15em] font-semibold shrink-0" style={{fontFamily: 'var(--font-mono)', color: 'var(--text-mid)', opacity: 0.6}}>Offshore Team</span>
+                </div>
+                <div className="grid grid-cols-[1fr_auto] gap-3 items-start">
+                  <span className="text-sm font-semibold" style={{fontFamily: 'var(--font-body)', color: 'var(--text-dark)'}}>{row.ramp}</span>
+                  <span className="text-[10px] uppercase tracking-[0.15em] font-bold shrink-0" style={{fontFamily: 'var(--font-mono)', color: 'var(--gold)'}}>Global Nexus</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="hidden sm:block">
+            <table className="w-full text-left border-collapse">
               <thead>
                 <tr>
                   <th

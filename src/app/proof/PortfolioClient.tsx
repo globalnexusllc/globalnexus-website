@@ -2,275 +2,13 @@
 
 import {useState} from 'react'
 import Link from 'next/link'
+import {portfolioProjects, portfolioCategories} from '@/lib/search/sources'
+import type {PortfolioProject as Project} from '@/lib/search/types'
+import ReadMore, {ReadMoreGroup} from '@/components/shared/ReadMore'
 
-interface Project {
-  id: string
-  name: string
-  url: string
-  role: string
-  category: string
-  tech: string[]
-  description: string
-  highlights: string[]
-  gradient: string
-  accentColor: string
-  iconLetter: string
-  screenshot?: string
-  testimonial: {
-    quote: string
-    name: string
-    title: string
-  }
-}
+const projects: Project[] = portfolioProjects
 
-const projects: Project[] = [
-  {
-    id: 'neighbors',
-    name: 'Neighbors',
-    url: 'https://neighbors.co',
-    role: 'Software Engineering & Product Design',
-    category: 'Marketplace',
-    tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'PostgreSQL', 'Heroku'],
-    description: 'A web platform connecting local chefs with nearby customers looking to order home-cooked dishes for parties, events, and gatherings. Delivers a seamless experience for browsing menus, placing orders, and supporting local culinary talent.',
-    highlights: [
-      'Led software engineering and UI/UX design end-to-end',
-      'Built responsive ordering flow with real-time availability',
-      'Architected PostgreSQL schema for chef profiles and order management',
-      'Deployed and maintained on Heroku with CI pipeline',
-    ],
-    gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%)',
-    accentColor: '#f97316',
-    iconLetter: 'N',
-    screenshot: '/portfolio/neighbors.jpg',
-    testimonial: {
-      quote: "Global Nexus delivered our full platform from scratch — frontend, backend, and database — with a level of craftsmanship we hadn't seen before. The checkout flow alone boosted our order conversions by 40%.",
-      name: 'Chris Sullivan',
-      title: 'Founder, Neighbors',
-    },
-  },
-  {
-    id: 'featured-customers',
-    name: 'Featured Customers',
-    url: 'https://featuredcustomers.com',
-    role: 'Software Engineering',
-    category: 'B2B SaaS',
-    tech: ['React.js', 'TypeScript', 'React Query', 'React Hook Form', 'Tailwind CSS', 'Python', 'Django REST', 'PostgreSQL', 'Digital Ocean'],
-    description: 'A content marketing platform that showcases verified customer success stories, case studies, and testimonials for B2B companies. Implemented dynamic frontend components, API integrations, and RESTful Django endpoints.',
-    highlights: [
-      'Built dynamic frontend components with React and TypeScript',
-      'Integrated complex forms and API calls with React Hook Form and React Query',
-      'Developed and maintained RESTful endpoints in Django REST Framework',
-      'Collaborated on UI design flows in Figma for a clean, responsive interface',
-    ],
-    gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%)',
-    accentColor: '#3b82f6',
-    iconLetter: 'FC',
-    screenshot: '/portfolio/featured-customers.jpg',
-    testimonial: {
-      quote: "Their React and Django work was impeccable. Complex API integrations, form systems, responsive UI — all delivered cleanly and on schedule. They became an extension of our team within the first week.",
-      name: 'Jeff Eichel',
-      title: 'Founder & CEO, Featured Customers',
-    },
-  },
-  {
-    id: 'go-ask-alice',
-    name: 'Go Ask Alice!',
-    url: 'https://goaskalice.columbia.edu',
-    role: 'Frontend & CMS Development',
-    category: 'Health Tech',
-    tech: ['Drupal', 'Gatsby.js', 'GraphQL', 'Storybook', 'Styled Components', 'Emotion', 'React'],
-    description: "Columbia University's trusted health Q&A platform aimed at college students and young adults. Built and styled reusable React components, integrated with a Gatsby static frontend powered by Drupal CMS and GraphQL.",
-    highlights: [
-      'Built and styled reusable React components with Emotion and Styled Components',
-      'Integrated Gatsby static frontend with Drupal CMS via GraphQL',
-      'Established a scalable design system in Storybook',
-      'Delivered a fast, accessible, mobile-first site optimized for health education',
-    ],
-    gradient: 'linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)',
-    accentColor: '#10b981',
-    iconLetter: 'GA',
-    screenshot: '/portfolio/go-ask-alice.png',
-    testimonial: {
-      quote: "Rebuilding our health platform in Gatsby with Drupal CMS integration was a major undertaking. Global Nexus handled it with precision. The new design system they built cut our development cycle in half.",
-      name: 'Kay VanValkenburgh',
-      title: 'Principal, OwnSourcing',
-    },
-  },
-  {
-    id: 'torc',
-    name: 'Torc',
-    url: 'https://www.torc.dev',
-    role: 'Frontend Development',
-    category: 'Tech Platform',
-    tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Storybook'],
-    description: 'A tech talent marketplace connecting developers with global opportunities. Developed and refined frontend components using Next.js and TypeScript, contributed to a modular design system with Storybook, and implemented responsive, accessible UI.',
-    highlights: [
-      'Developed modular, scalable UI components in Next.js and TypeScript',
-      'Built and documented a comprehensive Storybook component library',
-      'Implemented responsive, accessible design with Tailwind CSS',
-      'Collaborated with designers and backend engineers for consistent high-performance UX',
-    ],
-    gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%)',
-    accentColor: '#8b5cf6',
-    iconLetter: 'T',
-    screenshot: '/portfolio/torc.jpg',
-    testimonial: {
-      quote: "Fast, quality work with zero hand-holding needed. Their Next.js component library fit seamlessly into our design system, and the Storybook documentation they left behind has been invaluable.",
-      name: 'Dave Messinger',
-      title: 'CTO & Co-Founder, Torc',
-    },
-  },
-  {
-    id: 'mindtrip',
-    name: 'Mindtrip',
-    url: 'https://mindtrip.ai',
-    role: 'Software Engineering · AI Systems',
-    category: 'AI / Travel',
-    tech: ['Next.js', 'FastAPI', 'Python', 'PostgreSQL (AWS RDS)', 'Redis', 'Pinecone', 'LangChain', 'Vercel AI SDK', 'LlamaIndex'],
-    description: 'An AI-powered travel assistant that personalizes trip planning through conversational AI. Built and optimized backend services, implemented vector search with Pinecone, and enabled semantic retrieval with LangChain and LlamaIndex.',
-    highlights: [
-      'Led software engineering and AI component integration',
-      'Built production backend services with FastAPI and Python',
-      'Implemented vector search (Pinecone) and AI reasoning (LangChain, LlamaIndex)',
-      'Integrated Redis caching and PostgreSQL via AWS RDS for persistent storage',
-    ],
-    gradient: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%)',
-    accentColor: '#06b6d4',
-    iconLetter: 'M',
-    screenshot: '/portfolio/mindtrip.jpg',
-    testimonial: {
-      quote: "We needed someone who could bridge modern AI tooling with production-grade backend infrastructure. Global Nexus delivered beyond expectations — the LangChain and Pinecone integration they built is the backbone of our product today.",
-      name: 'Andy Moss',
-      title: 'Co-Founder & CEO, Mindtrip',
-    },
-  },
-  {
-    id: 'polarace',
-    name: 'Polarace',
-    url: 'https://polarace.gg',
-    role: 'Software Engineering',
-    category: 'Gaming / Creator',
-    tech: ['React.js', 'Emotion', 'React Router', 'TypeScript', 'Nest.js', 'Prisma', 'MongoDB', 'AWS'],
-    description: 'A job and collaboration platform tailored for content creators in the gaming and streaming community. Built responsive frontend interfaces, developed secure backend APIs with Nest.js, and architected the data layer with Prisma and MongoDB.',
-    highlights: [
-      'Built responsive frontend with React.js, Emotion, and React Router',
-      'Developed secure, scalable backend APIs with Nest.js',
-      'Architected data layer with Prisma and MongoDB for creator profiles and job listings',
-      'Deployed reliable infrastructure on AWS; user signups tripled post-launch',
-    ],
-    gradient: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)',
-    accentColor: '#6366f1',
-    iconLetter: 'P',
-    testimonial: {
-      quote: "From Nest.js APIs to React UI, everything was solid. They understood our creator audience and built features that felt native to the gaming community. Our user signups tripled in the quarter after launch.",
-      name: 'Derek Dobosz',
-      title: 'CEO, Polar Ace',
-    },
-  },
-  {
-    id: 'samurai-warlords',
-    name: 'Samurai Warlords',
-    url: 'https://samuraiwarlords.com',
-    role: 'Software Engineering · Blockchain',
-    category: 'Web3 / Gaming',
-    tech: ['ASP.NET Core', 'C#', 'Unity', 'Solidity', 'ERC-721', 'ERC-1155', 'Base Chain', 'Web3.js'],
-    description: 'An expansive Web3 strategy and combat ecosystem built on the Base blockchain. Developed the platform in ASP.NET Core and C#, deployed NFT smart contracts, and shipped a Samurai Chess game in Unity — bridging traditional gaming with blockchain-powered play-to-earn mechanics for a dual-token economy.',
-    highlights: [
-      'Built NFT marketplace with minting, buying, selling, and bidding for samurai characters, weapons, and artifacts',
-      'Developed ERC-721 and ERC-1155 smart contracts for character NFTs, weapons, and in-game resource tokens',
-      'Implemented staking dashboard — players lock NFTs to farm $VALOR tokens and ERC-1155 resources (materials, essences)',
-      'Shipped Samurai Chess in Unity — turn-based strategy game with NFT warrior pieces, live on iOS, Android, and desktop',
-      'Architected dual-token economy ($VALOR / $HONOR) with DAO governance, tournament entry, and NFT upgrade mechanics',
-      'Integrated ASP.NET Core / C# backend with on-chain events, Web3 wallet auth, and player progression dashboards',
-    ],
-    gradient: 'linear-gradient(135deg, #0d0500 0%, #3b1000 50%, #7c1d0c 100%)',
-    accentColor: '#d97706',
-    iconLetter: 'SW',
-    screenshot: '/portfolio/samurai-warlords.png',
-    testimonial: {
-      quote: "Global Nexus brought together our smart contracts, ASP.NET backend, and Unity game into one cohesive platform. The staking dashboard and NFT marketplace alone drove our Genesis collection to sell out within 48 hours of launch.",
-      name: 'RyuZanshin (Niro)',
-      title: 'CEO, Samurai Warlords',
-    },
-  },
-  {
-    id: 'foh-boh',
-    name: 'foh&boh',
-    url: 'https://fohandboh.com',
-    role: 'Software Engineering',
-    category: 'Hospitality Tech',
-    tech: ['React', 'Node.js', 'PostgreSQL', 'AWS SES', 'AWS S3', 'Twilio', 'Cloudflare', 'WordPress'],
-    description: "A SaaS talent marketplace built for the hospitality and retail industries. Engineered the full hiring platform — from sourcing and job board distribution through applicant tracking, automated scheduling, offer letters, and onboarding — helping 1,000+ brands like Grand Hyatt, Omni Hotels, and PF Chang's cut average hire time from 10 days to 3.",
-    highlights: [
-      'Built multi-channel candidate sourcing with direct SMS/email outreach — 99% read rate within 90 seconds',
-      'Integrated simultaneous distribution to 65+ job boards from a single posting workflow',
-      'Developed full ATS: screening videos, automated interview scheduling, offer letter generation, and onboarding docs',
-      'Implemented 100+ HRIS integrations (BambooHR, Gusto, Workday) and 10+ ATS integrations (Greenhouse, Ashby)',
-      'Created branded career page builder and smart candidate matching by commute, hours, and compensation preferences',
-      'Built analytics dashboard with job board performance tracking, conversion rates, market pay benchmarking, and rejection analysis',
-    ],
-    gradient: 'linear-gradient(135deg, #92400e 0%, #b45309 50%, #d97706 100%)',
-    accentColor: '#f59e0b',
-    iconLetter: 'FB',
-    screenshot: '/portfolio/foh-boh.png',
-    testimonial: {
-      quote: "We needed a platform that could handle the chaos of hospitality hiring — high volume, fast turnover, and operators who don't have time to waste. Global Nexus delivered exactly that. The SMS outreach and job board distribution alone transformed how our clients hire.",
-      name: 'Halle Hayes',
-      title: 'CEO & Co-Founder, foh&boh',
-    },
-  },
-  {
-    id: 'trend',
-    name: 'Trend',
-    url: 'https://trend.io',
-    role: 'Software Engineering & Product Design',
-    category: 'Creator Economy',
-    tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'PostgreSQL', 'AWS S3', 'AWS CloudFront', 'Stripe'],
-    description: 'A creator marketplace and UGC platform where brands commission custom photo and video content from creators and repurpose it into shoppable media. Designed and developed end-to-end marketplace workflows, payments, and media infrastructure.',
-    highlights: [
-      'Built end-to-end brand campaign flows with creator application and asset approval',
-      'Implemented TikTok-style shoppable video feed with embedded product links',
-      'Created credit-based billing system with Stripe and instant creator payouts',
-      'Designed secure S3 upload pipeline with presigned URLs and thumbnail generation',
-    ],
-    gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%)',
-    accentColor: '#ec4899',
-    iconLetter: 'TR',
-    screenshot: '/portfolio/trend.jpg',
-    testimonial: {
-      quote: "What impressed us most was the product thinking behind the code. The S3 upload pipeline, shoppable video feed, and Stripe credit system — each piece was architected for scale. Global Nexus thinks like a product team, not just engineers.",
-      name: 'Joel Otterstrom',
-      title: 'Founder & CEO, Trend',
-    },
-  },
-  {
-    id: 'ai-girlfriend-chat-simulator',
-    name: 'AI Girlfriend Chat Simulator',
-    url: '',
-    role: 'Mobile Engineering · AI Integration',
-    category: 'AI / Mobile',
-    tech: ['React Native', 'Expo', 'TypeScript', 'OpenAI / ChatGPT API', 'RevenueCat', 'EAS Build'],
-    description: 'A cross-platform mobile AI chat simulator delivering immersive conversational experiences powered by the ChatGPT API. Built end-to-end on React Native + Expo with subscription monetization via RevenueCat — production-grade conversational AI shipped to iOS and Android from a single TypeScript codebase.',
-    highlights: [
-      'Architected the full React Native + Expo mobile app with TypeScript for iOS and Android from a single codebase',
-      'Integrated the OpenAI / ChatGPT API with streaming responses, conversation memory, and persona prompts for personalized chat',
-      'Implemented RevenueCat subscriptions across both app stores — paywall UI, trial logic, restore-purchases, webhook entitlement sync',
-      'Built secure backend proxy to keep OpenAI keys off-device and enforce rate limits per subscription tier',
-      'Shipped via EAS Build with OTA updates, allowing rapid iteration without forcing store reviews',
-    ],
-    gradient: 'linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f43f5e 100%)',
-    accentColor: '#a855f7',
-    iconLetter: 'AI',
-    screenshot: '/portfolio/ai-girlfriend-chat-app.png',
-    testimonial: {
-      quote: "The integration between ChatGPT and RevenueCat was seamless. Streaming chat, paywalls, restore flows — everything just worked on day one of launch. We hit profitable unit economics in our first month.",
-      name: 'Dzianis Khrystsiyanau',
-      title: 'Founder, AI Girlfriend Chat Simulator',
-    },
-  },
-]
-
-const categories = ['All', 'Marketplace', 'B2B SaaS', 'Health Tech', 'Hospitality Tech', 'Tech Platform', 'AI / Travel', 'AI / Mobile', 'Web3 / Gaming', 'Gaming / Creator', 'Creator Economy']
+const categories = portfolioCategories
 
 function ProjectCard({project}: {project: Project}) {
   const [flipped, setFlipped] = useState(false)
@@ -332,9 +70,9 @@ function ProjectCard({project}: {project: Project}) {
           </a>
         </div>
 
-        <p className="text-sm leading-relaxed mb-4 flex-1" style={{color: 'oklch(0.45 0.02 50)', fontFamily: 'var(--font-body)'}}>
-          {project.description}
-        </p>
+        <div className="text-sm leading-relaxed mb-4 flex-1" style={{color: 'oklch(0.45 0.02 50)', fontFamily: 'var(--font-body)'}}>
+          <ReadMore id={`portfolio-${project.id}`} lines={4}>{project.description}</ReadMore>
+        </div>
 
         {/* Tech stack */}
         <div className="flex flex-wrap gap-1.5 mb-4">
@@ -476,11 +214,13 @@ export default function PortfolioClient() {
           </div>
 
           {/* Project grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filtered.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
+          <ReadMoreGroup>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filtered.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          </ReadMoreGroup>
         </div>
       </section>
 

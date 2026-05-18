@@ -1,5 +1,8 @@
 import Link from 'next/link'
 import type {Metadata} from 'next'
+import {teamMembers} from '@/lib/search/sources'
+import type {TeamMember} from '@/lib/search/types'
+import ReadMore, {ReadMoreGroup} from '@/components/shared/ReadMore'
 
 export const metadata: Metadata = {
   title: 'Team',
@@ -7,47 +10,7 @@ export const metadata: Metadata = {
     'Meet the senior engineers behind Global Nexus. Every team member brings 10+ years of hands-on software engineering experience.',
 }
 
-interface TeamMember {
-  name: string
-  title: string
-  bio: string
-  photo?: string
-  linkedin?: string
-  github?: string
-}
-
-const team: TeamMember[] = [
-  {
-    name: 'David Zhen',
-    title: 'Co-Founder & Lead Engineer',
-    bio: 'Co-founder and technical lead with 10+ years of hands-on engineering across web, mobile, and DeFi. Specializes in high-level architecture and cloud infrastructure — the decisions that determine whether a product scales gracefully or buckles at 10× load. David has taken products from zero to production across early-stage startups, and brings founder-level product judgment to every engagement, not just technical execution.',
-    photo: '/team/david-zhen.png',
-  },
-  {
-    name: 'Milan Kojadinovic',
-    title: 'Senior Software Engineer · AI/ML',
-    bio: 'Python ecosystem specialist with 10+ years building AI/ML platforms end-to-end. Architects inference services, retrieval pipelines, and LLM-driven backends in FastAPI, LangChain, LlamaIndex, and PyTorch. Milan\'s strength is the bridge between research-stage ML work and production-grade systems — the gap where most AI projects quietly die. Equally comfortable tuning a vector index as he is shipping the API that consumes it.',
-    photo: '/team/milan-kojadinovic.png',
-  },
-  {
-    name: 'Cole Dahl',
-    title: 'HR Manager & Senior Software Engineer',
-    bio: 'Senior engineer with 10+ years across Web3, DeFi, and traditional full-stack web. Has shipped Solidity smart contracts, NFT marketplaces, and B2B SaaS platforms — sometimes in the same quarter. Cole also leads people operations at Global Nexus: hiring, mentoring, and protecting the senior-engineers-only culture. He believes the best hires come from working alongside engineers on real problems, not from interview theater. Startup veteran with a strong eye for what gets a product to market.',
-    photo: '/team/cole-dahl.png',
-  },
-  {
-    name: 'Brian Howell',
-    title: 'Senior Software Engineer · Game Engineering',
-    bio: 'Game engineering specialist with 10+ years shipping titles on Unity and Unreal Engine. Brings real-time rendering, physics, and tight gameplay-loop thinking to non-game products — visualizations, simulators, training platforms, and any UI that has to feel alive at 60fps. Brian also leads technical recruiting from the game industry, bringing in engineers whose performance-tuning instincts translate directly to demanding production workloads.',
-    photo: '/team/brian-howell.png',
-  },
-  {
-    name: 'Daniel Baez',
-    title: 'Senior Software Engineer · AWS & DevOps',
-    bio: 'Full-stack web engineer and AWS infrastructure expert with 10+ years across application code and the platforms that run it. Daniel owns the boundary where software meets cloud: VPC topology, IAM policies, CI/CD pipelines, observability, and cost controls — the unglamorous work that keeps production reliable at 3am. Equally fluent shipping React/Node applications and writing the Terraform and AWS CDK that deploy them. The engineer you want when the bottleneck isn\'t the code, it\'s everything around it.',
-    photo: '/team/daniel-baez.png',
-  },
-]
+const team: TeamMember[] = teamMembers
 
 function initials(name: string): string {
   return name
@@ -100,7 +63,8 @@ export default function TeamPage() {
       {/* ═══ TEAM GRID ═══ */}
       <section className="py-20 sm:py-28" style={{background: 'var(--warm-bg)'}}>
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <div className="grid sm:grid-cols-2 gap-6">
+          <ReadMoreGroup>
+            <div className="grid sm:grid-cols-2 gap-6">
             {team.map((member) => (
               <div
                 key={member.name}
@@ -136,9 +100,9 @@ export default function TeamPage() {
                   <p className="text-xs uppercase tracking-[0.15em] mb-3" style={{color: 'var(--rust)', fontFamily: 'var(--font-mono)'}}>
                     {member.title}
                   </p>
-                  <p className="text-sm leading-relaxed mb-3" style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>
-                    {member.bio}
-                  </p>
+                  <div className="text-sm leading-relaxed mb-3" style={{color: 'var(--text-mid)', fontFamily: 'var(--font-body)'}}>
+                    <ReadMore id={`team-${member.name}`} lines={4}>{member.bio}</ReadMore>
+                  </div>
                   {(member.linkedin || member.github) && (
                     <div className="flex gap-3 text-xs">
                       {member.linkedin && (
@@ -168,7 +132,8 @@ export default function TeamPage() {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          </ReadMoreGroup>
 
           {/* Hiring note */}
           <div

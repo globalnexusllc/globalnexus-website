@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sanity migration artifacts
+sanity-export-*.tar.gz
+
+# mobile responsiveness audit screenshots (regenerated via scripts/mobile-audit.ts)
+mobile-audit/

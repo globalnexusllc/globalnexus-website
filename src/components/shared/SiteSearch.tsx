@@ -1,46 +1,115 @@
 'use client'
 
-import {useState, useEffect, useRef, useCallback} from 'react'
+import {useState, useEffect, useRef, useCallback, useMemo, Fragment} from 'react'
 import {useRouter} from 'next/navigation'
-import {Search, X, Send, Loader2, Sparkles, ArrowRight, Globe, BookOpen, FileText} from 'lucide-react'
+import Link from 'next/link'
+import {Search, X, Send, Loader2, Sparkles, ArrowRight, Globe, BookOpen, Briefcase, Users, Layers, Wrench} from 'lucide-react'
+import {searchStatic} from '@/lib/search/engine'
+import type {SearchableItem, SearchKind} from '@/lib/search/types'
 
-interface NavItem {
-  title: string
-  path: string
-  type: 'page' | 'blog' | 'practice'
-  keywords: string
+const KIND_META: Record<SearchKind, {label: string; icon: typeof Globe}> = {
+  page: {label: 'Pages', icon: Globe},
+  portfolio: {label: 'Portfolio', icon: Briefcase},
+  team: {label: 'Team', icon: Users},
+  stack: {label: 'Stack', icon: Layers},
+  engineering: {label: 'Engineering', icon: Wrench},
+  blog: {label: 'Blog', icon: BookOpen},
 }
 
-const NAV_INDEX: NavItem[] = [
-  {title: 'Sourcing — Enterprise IT Advisory', path: '/sourcing', type: 'practice', keywords: 'data center colocation cloud hosting telecom network infrastructure procurement vendor negotiation CIO sourcing SPY Index'},
-  {title: 'Syzygy — Growth Strategy', path: '/growth', type: 'practice', keywords: 'startup founder growth GTM go to market revenue strategy scaling fundraising'},
-  {title: 'Stratum — Web3 & Blockchain', path: '/web3', type: 'practice', keywords: 'blockchain crypto token DAO web3 decentralized DeFi'},
-  {title: 'ImpactSoul — Impact Consulting', path: '/impactsoul', type: 'practice', keywords: 'impact ESG sustainability B Corp grants NGO regenerative social'},
-  {title: 'Process — How We Operate', path: '/process', type: 'page', keywords: 'methodology steps flow circuit'},
-  {title: 'Proof — Case Results', path: '/proof', type: 'page', keywords: 'testimonials clients results case studies'},
-  {title: 'About — Team & Advisors', path: '/about', type: 'page', keywords: 'team people leadership tony greenberg'},
-  {title: 'Blog', path: '/blog', type: 'page', keywords: 'articles writing posts thought leadership'},
-  {title: 'Thinking', path: '/thinking', type: 'page', keywords: 'insights essays ideas opinion'},
-  {title: 'Engage', path: '/contact', type: 'page', keywords: 'contact form reach out connect engage'},
-  {title: 'Privacy Policy', path: '/privacy', type: 'page', keywords: 'privacy data'},
-  {title: 'Terms of Service', path: '/terms', type: 'page', keywords: 'terms legal'},
-]
-
-function quickMatch(query: string): NavItem[] {
-  if (query.trim().length < 2) return []
-  const q = query.toLowerCase()
-  const tokens = q.split(/\s+/)
-  return NAV_INDEX.filter(item => {
-    const hay = `${item.title} ${item.keywords}`.toLowerCase()
-    return tokens.every(tok => hay.includes(tok))
-  }).slice(0, 5)
-}
-
-const typeIcons = {page: Globe, blog: BookOpen, practice: FileText}
+const KIND_ORDER: SearchKind[] = ['page', 'portfolio', 'team', 'stack', 'engineering', 'blog']
 
 interface ChatMsg {
   role: 'user' | 'assistant'
   content: string
+}
+
+// ─── Tiny markdown-link parser for AI replies ───
+// Splits text on [label](path) patterns and renders interior links.
+function renderWithLinks(text: string, onClick: () => void) {
+  const parts: React.ReactNode[] = []
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index))
+    const [, label, href] = match
+    const isInternal = href.startsWith('/')
+    parts.push(
+      isInternal ? (
+        <Link
+          key={`${match.index}`}
+          href={href}
+          onClick={onClick}
+          className="font-semibold underline underline-offset-2 hover:opacity-80"
+          style={{color: 'oklch(0.82 0.15 75)'}}
+        >
+          {label}
+        </Link>
+      ) : (
+        <a
+          key={`${match.index}`}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold underline underline-offset-2 hover:opacity-80"
+          style={{color: 'oklch(0.82 0.15 75)'}}
+        >
+          {label}
+        </a>
+      )
+    )
+    lastIndex = regex.lastIndex
+  }
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex))
+  return parts.map((p, i) => <Fragment key={i}>{p}</Fragment>)
+}
+
+// ─── Hook: unified search (static fuse + debounced blog API) ───
+function useSearch(query: string) {
+  const staticResults = useMemo(() => searchStatic(query, 30), [query])
+  const [blogResults, setBlogResults] = useState<SearchableItem[]>([])
+  const [blogLoading, setBlogLoading] = useState(false)
+
+  useEffect(() => {
+    const q = query.trim()
+    if (q.length < 2) {
+      setBlogResults([])
+      return
+    }
+    setBlogLoading(true)
+    const controller = new AbortController()
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/search/blog?q=${encodeURIComponent(q)}&limit=8`, {signal: controller.signal})
+        const data = await res.json()
+        setBlogResults(data.results || [])
+      } catch {
+        // ignore aborts
+      } finally {
+        setBlogLoading(false)
+      }
+    }, 250)
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [query])
+
+  const grouped = useMemo(() => {
+    const all = [...staticResults, ...blogResults]
+    const out: Record<SearchKind, SearchableItem[]> = {
+      page: [],
+      portfolio: [],
+      team: [],
+      stack: [],
+      engineering: [],
+      blog: [],
+    }
+    for (const item of all) out[item.kind].push(item)
+    return out
+  }, [staticResults, blogResults])
+
+  return {grouped, hasResults: staticResults.length + blogResults.length > 0, blogLoading}
 }
 
 export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
@@ -48,18 +117,20 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
   const [query, setQuery] = useState('')
   const [chat, setChat] = useState<ChatMsg[]>([])
   const [loading, setLoading] = useState(false)
+  const [mode, setMode] = useState<'search' | 'chat'>('search')
   const inputRef = useRef<HTMLInputElement>(null)
   const chatEndRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
-  const quickResults = quickMatch(query)
-  const showQuickNav = query.trim().length >= 2 && quickResults.length > 0 && chat.length === 0
+  const {grouped, hasResults, blogLoading} = useSearch(mode === 'search' ? query : '')
+  const showResults = mode === 'search' && query.trim().length >= 2 && hasResults
 
   const openSearch = useCallback(() => {
     setOpen(true)
     setQuery('')
     setChat([])
     setLoading(false)
+    setMode('search')
   }, [])
 
   const closeSearch = useCallback(() => {
@@ -67,17 +138,16 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
     setQuery('')
     setChat([])
     setLoading(false)
+    setMode('search')
   }, [])
 
-  const handleSubmit = useCallback(async () => {
-    const q = query.trim()
+  const askAi = useCallback(async (q: string) => {
     if (!q || loading) return
-
+    setMode('chat')
     const newChat: ChatMsg[] = [...chat, {role: 'user', content: q}]
     setChat(newChat)
     setQuery('')
     setLoading(true)
-
     try {
       const res = await fetch('/api/ai', {
         method: 'POST',
@@ -85,13 +155,13 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
         body: JSON.stringify({question: q, history: chat.slice(-10)}),
       })
       const data = await res.json()
-      setChat(prev => [...prev, {role: 'assistant', content: data.answer}])
+      setChat((prev) => [...prev, {role: 'assistant', content: data.answer}])
     } catch {
-      setChat(prev => [...prev, {role: 'assistant', content: 'Something went wrong. Try again or reach out at /contact.'}])
+      setChat((prev) => [...prev, {role: 'assistant', content: 'Something went wrong. Try again or reach out at /contact.'}])
     } finally {
       setLoading(false)
     }
-  }, [query, loading, chat])
+  }, [loading, chat])
 
   // Cmd+K / Ctrl+K
   useEffect(() => {
@@ -117,13 +187,17 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      handleSubmit()
+      askAi(query.trim())
     }
+  }
+
+  const goTo = (path: string) => {
+    router.push(path)
+    closeSearch()
   }
 
   return (
     <>
-      {/* Trigger button */}
       <button
         onClick={openSearch}
         className="flex items-center gap-2.5 px-4 py-2 rounded-full border transition-all text-sm group"
@@ -133,10 +207,10 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
           color: scrolled ? 'oklch(0.4 0.03 50)' : 'rgba(255,255,255,0.6)',
           fontFamily: 'var(--font-body)',
         }}
-        aria-label="Ask Global Nexus AI"
+        aria-label="Search Global Nexus"
       >
         <Sparkles size={15} style={{color: scrolled ? 'oklch(0.65 0.15 75)' : 'oklch(0.82 0.15 75)'}} />
-        <span className="hidden md:inline text-xs font-medium">Ask Global Nexus</span>
+        <span className="hidden md:inline text-xs font-medium">Search Global Nexus</span>
         <kbd
           className="hidden lg:inline text-[10px] px-1.5 py-0.5 rounded-md font-mono"
           style={{
@@ -146,12 +220,8 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
         >⌘K</kbd>
       </button>
 
-      {/* Overlay */}
       {open && (
-        <div
-          className="fixed inset-0 z-[100] flex items-start justify-center pt-[8vh] sm:pt-[12vh]"
-          onClick={closeSearch}
-        >
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[8vh] sm:pt-[12vh]" onClick={closeSearch}>
           <div className="absolute inset-0 bg-black/75 backdrop-blur-md" />
 
           <div
@@ -163,9 +233,9 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
               backdropFilter: 'blur(24px)',
               boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
             }}
-            onClick={e => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
             role="dialog"
-            aria-label="Global Nexus AI Assistant"
+            aria-label="Global Nexus Search"
           >
             {/* Header */}
             <div className="px-5 py-4 flex items-center justify-between shrink-0" style={{borderBottom: '1px solid rgba(255,255,255,0.08)'}}>
@@ -177,43 +247,41 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
                   <Sparkles size={16} style={{color: '#0a0f1a'}} />
                 </div>
                 <div>
-                  <p className="text-white text-sm font-semibold" style={{fontFamily: 'var(--font-display)'}}>Global Nexus AI</p>
-                  <p className="text-[10px]" style={{color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-mono)'}}>Engineering expertise, on demand</p>
+                  <p className="text-white text-sm font-semibold" style={{fontFamily: 'var(--font-display)'}}>Global Nexus Search</p>
+                  <p className="text-[10px]" style={{color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-mono)'}}>
+                    {mode === 'chat' ? 'AI conversation' : 'Pages · Portfolio · Team · Stack · Engineering · Blog'}
+                  </p>
                 </div>
               </div>
-              <button onClick={closeSearch} className="p-1 transition-colors" style={{color: 'rgba(255,255,255,0.3)'}}
-                onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.3)')}>
+              <button
+                onClick={closeSearch}
+                className="p-1 transition-colors"
+                style={{color: 'rgba(255,255,255,0.3)'}}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.3)')}
+              >
                 <X size={18} />
               </button>
             </div>
 
-            {/* Chat area */}
+            {/* Body */}
             <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4" style={{minHeight: '120px'}}>
-              {chat.length === 0 && !showQuickNav && (
+              {/* Empty state */}
+              {mode === 'search' && query.trim().length < 2 && chat.length === 0 && (
                 <div className="text-center py-8">
                   <p className="text-sm mb-4" style={{color: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-body)'}}>
-                    Ask anything about Global Nexus, our practices, case results, or enterprise strategy.
+                    Search across pages, portfolio, team, stack, and blog — or press Enter to ask the AI.
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {["How do you save companies money?", "What is the SPY Index?", "Tell me about Web3 advisory"].map(q => (
+                    {['react native', 'blockchain', 'David Zhen', 'How does your SDLC work?'].map((q) => (
                       <button
                         key={q}
-                        onClick={() => {setQuery(q); setTimeout(() => inputRef.current?.focus(), 50)}}
+                        onClick={() => {
+                          setQuery(q)
+                          setTimeout(() => inputRef.current?.focus(), 50)
+                        }}
                         className="px-3 py-1.5 rounded-full text-xs transition-colors"
-                        style={{
-                          border: '1px solid rgba(255,255,255,0.10)',
-                          color: 'rgba(255,255,255,0.4)',
-                          fontFamily: 'var(--font-body)',
-                        }}
-                        onMouseEnter={e => {
-                          e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
-                          e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
-                        }}
-                        onMouseLeave={e => {
-                          e.currentTarget.style.background = 'transparent'
-                          e.currentTarget.style.color = 'rgba(255,255,255,0.4)'
-                        }}
+                        style={{border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-body)'}}
                       >
                         {q}
                       </button>
@@ -222,34 +290,81 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
                 </div>
               )}
 
-              {/* Quick nav results */}
-              {showQuickNav && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-2"
-                     style={{color: 'oklch(0.82 0.15 75 / 0.5)', fontFamily: 'var(--font-mono)'}}>
-                    Quick Navigate
-                  </p>
-                  {quickResults.map(item => {
-                    const Icon = typeIcons[item.type]
+              {/* Search results (grouped) */}
+              {showResults && (
+                <div className="space-y-4">
+                  {KIND_ORDER.map((kind) => {
+                    const items = grouped[kind]
+                    if (!items.length) return null
+                    const meta = KIND_META[kind]
+                    const Icon = meta.icon
                     return (
-                      <button
-                        key={item.path}
-                        onClick={() => {router.push(item.path); closeSearch()}}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left"
-                        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
-                        onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                      >
-                        <Icon size={14} className="shrink-0" style={{color: 'rgba(255,255,255,0.25)'}} />
-                        <span className="text-sm flex-1" style={{color: 'rgba(255,255,255,0.8)', fontFamily: 'var(--font-body)'}}>{item.title}</span>
-                        <ArrowRight size={12} style={{color: 'rgba(255,255,255,0.2)'}} />
-                      </button>
+                      <div key={kind}>
+                        <p
+                          className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-1.5 flex items-center gap-2"
+                          style={{color: 'oklch(0.82 0.15 75 / 0.65)', fontFamily: 'var(--font-mono)'}}
+                        >
+                          <Icon size={11} /> {meta.label}
+                          <span className="opacity-50">({items.length})</span>
+                        </p>
+                        {items.slice(0, 3).map((item) => (
+                          <button
+                            key={item.id}
+                            onClick={() => goTo(item.path)}
+                            className="w-full flex items-start gap-3 px-3 py-2 rounded-lg transition-colors text-left"
+                            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                          >
+                            <div className="flex-1 min-w-0">
+                              <div className="text-sm font-medium" style={{color: 'rgba(255,255,255,0.9)', fontFamily: 'var(--font-body)'}}>
+                                {item.title}
+                              </div>
+                              {item.description && (
+                                <div className="text-xs mt-0.5 truncate" style={{color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)'}}>
+                                  {item.description}
+                                </div>
+                              )}
+                            </div>
+                            <ArrowRight size={12} className="mt-1 shrink-0" style={{color: 'rgba(255,255,255,0.2)'}} />
+                          </button>
+                        ))}
+                      </div>
                     )
                   })}
-                  <div className="mt-3 pt-3" style={{borderTop: '1px solid rgba(255,255,255,0.05)'}}>
-                    <p className="text-[10px] text-center" style={{color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-mono)'}}>
-                      Press Enter to ask the AI instead
-                    </p>
+
+                  <div className="pt-3 flex items-center justify-between" style={{borderTop: '1px solid rgba(255,255,255,0.05)'}}>
+                    <Link
+                      href={`/search?q=${encodeURIComponent(query)}`}
+                      onClick={closeSearch}
+                      className="text-xs font-semibold hover:underline"
+                      style={{color: 'oklch(0.82 0.15 75)', fontFamily: 'var(--font-body)'}}
+                    >
+                      See all results →
+                    </Link>
+                    <button
+                      onClick={() => askAi(query.trim())}
+                      className="text-[10px]"
+                      style={{color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-mono)'}}
+                    >
+                      Or press <kbd className="px-1 py-0.5 rounded" style={{background: 'rgba(255,255,255,0.08)'}}>↵</kbd> to ask AI
+                    </button>
                   </div>
+                </div>
+              )}
+
+              {/* No results */}
+              {mode === 'search' && query.trim().length >= 2 && !hasResults && !blogLoading && (
+                <div className="text-center py-8">
+                  <p className="text-sm mb-3" style={{color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-body)'}}>
+                    No matches for &ldquo;{query}&rdquo;.
+                  </p>
+                  <button
+                    onClick={() => askAi(query.trim())}
+                    className="text-xs px-4 py-2 rounded-md font-semibold"
+                    style={{background: 'oklch(0.82 0.15 75)', color: '#0a0f1a', fontFamily: 'var(--font-body)'}}
+                  >
+                    Ask AI instead →
+                  </button>
                 </div>
               )}
 
@@ -260,15 +375,17 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
                     className="max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed"
                     style={{
                       background: msg.role === 'user' ? 'oklch(0.82 0.15 75 / 0.15)' : 'rgba(255,255,255,0.04)',
-                      color: msg.role === 'user' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.8)',
+                      color: msg.role === 'user' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.85)',
                       borderRadius: msg.role === 'user' ? '1rem 1rem 0.25rem 1rem' : '1rem 1rem 1rem 0.25rem',
                       border: msg.role === 'assistant' ? '1px solid rgba(255,255,255,0.05)' : 'none',
                       fontFamily: 'var(--font-body)',
                     }}
                   >
                     {msg.role === 'assistant' ? (
-                      <div className="whitespace-pre-wrap">{msg.content}</div>
-                    ) : msg.content}
+                      <div className="whitespace-pre-wrap">{renderWithLinks(msg.content, closeSearch)}</div>
+                    ) : (
+                      msg.content
+                    )}
                   </div>
                 </div>
               ))}
@@ -284,7 +401,7 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
                     }}
                   >
                     <Loader2 size={14} className="animate-spin" style={{color: 'oklch(0.82 0.15 75)'}} />
-                    <span className="text-sm" style={{color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)'}}>Thinking...</span>
+                    <span className="text-sm" style={{color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)'}}>Thinking…</span>
                   </div>
                 </div>
               )}
@@ -302,20 +419,22 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
                   ref={inputRef}
                   type="text"
                   value={query}
-                  onChange={e => setQuery(e.target.value)}
+                  onChange={(e) => {
+                    setQuery(e.target.value)
+                    if (mode === 'chat' && e.target.value.length === 0) setMode('search')
+                  }}
                   onKeyDown={onKeyDown}
-                  placeholder={chat.length > 0 ? 'Follow up...' : 'Ask about sourcing, Web3, case results, strategy...'}
+                  placeholder={mode === 'chat' ? 'Follow up…' : 'Search or ask anything…'}
                   className="flex-1 bg-transparent text-white text-sm outline-none"
                   style={{color: 'white', fontFamily: 'var(--font-body)'}}
                   disabled={loading}
                 />
                 <button
-                  onClick={handleSubmit}
+                  onClick={() => askAi(query.trim())}
                   disabled={!query.trim() || loading}
                   className="p-1.5 rounded-lg transition-all disabled:opacity-30"
                   style={{background: 'oklch(0.82 0.15 75)', color: '#0a0f1a'}}
-                  onMouseEnter={e => !e.currentTarget.disabled && (e.currentTarget.style.background = 'oklch(0.78 0.15 75)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'oklch(0.82 0.15 75)')}
+                  aria-label="Ask AI"
                 >
                   <Send size={14} />
                 </button>
@@ -324,10 +443,10 @@ export default function SiteSearch({scrolled = false}: {scrolled?: boolean}) {
                 <span className="text-[10px]" style={{color: 'rgba(255,255,255,0.15)', fontFamily: 'var(--font-mono)'}}>
                   <kbd className="px-1 py-0.5 rounded" style={{background: 'rgba(255,255,255,0.05)'}}>⌘K</kbd> open ·{' '}
                   <kbd className="px-1 py-0.5 rounded" style={{background: 'rgba(255,255,255,0.05)'}}>esc</kbd> close ·{' '}
-                  <kbd className="px-1 py-0.5 rounded" style={{background: 'rgba(255,255,255,0.05)'}}>↵</kbd> send
+                  <kbd className="px-1 py-0.5 rounded" style={{background: 'rgba(255,255,255,0.05)'}}>↵</kbd> ask AI
                 </span>
                 <span className="text-[10px]" style={{color: 'rgba(255,255,255,0.15)', fontFamily: 'var(--font-mono)'}}>
-                  Powered by Global Nexus engineering intelligence
+                  Global Nexus engineering intelligence
                 </span>
               </div>
             </div>

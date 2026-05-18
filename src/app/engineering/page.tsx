@@ -1,95 +1,12 @@
 import Link from 'next/link'
 import type {Metadata} from 'next'
+import {defaultSpecs, iterationStrategies, sdlcPhases} from '@/lib/search/sources'
 
 export const metadata: Metadata = {
   title: 'Engineering Methodology',
   description:
     'How Global Nexus engineers software — default specifications, iteration strategies, and the software development lifecycle behind every engagement.',
 }
-
-const defaultSpecs = [
-  {
-    title: 'Architecture Decision Records',
-    desc: 'Every non-trivial decision (database, framework, deployment topology) is captured in a lightweight ADR. Future engineers know why, not just what.',
-  },
-  {
-    title: 'Data Model Review',
-    desc: 'Before any UI is built, the schema is reviewed, normalized, and validated against expected query patterns. Bad schemas compound — we kill them at the source.',
-  },
-  {
-    title: 'API Contract First',
-    desc: 'OpenAPI / GraphQL schemas are defined before client code. Frontend and backend work in parallel against the same source of truth.',
-  },
-  {
-    title: 'Definition of Done',
-    desc: 'Tests written, observability hooks in place, docs updated, peer reviewed, deployed to staging, sign-off recorded. Nothing ships half-done.',
-  },
-  {
-    title: 'Security Baseline',
-    desc: 'Authentication, authorization, input validation, secrets management, and dependency scanning are non-negotiable from sprint one.',
-  },
-  {
-    title: 'Observability by Default',
-    desc: 'Structured logging, metrics, and distributed tracing wired in before launch. You can\'t fix what you can\'t see.',
-  },
-]
-
-const iterationStrategies = [
-  {
-    strategy: 'Agile (Default)',
-    when: 'Greenfield products · MVPs · Evolving requirements',
-    desc: '2-week sprints, weekly demos, async-first communication. Backlog reprioritized every cycle based on real demos, not status meetings.',
-  },
-  {
-    strategy: 'Waterfall',
-    when: 'Regulated industries · Fixed-scope contracts · Compliance-driven work',
-    desc: 'Sequential phases with formal sign-offs. Required when budget and timeline are locked, or when audit trails matter (finance, healthcare).',
-  },
-  {
-    strategy: 'Hybrid',
-    when: 'Enterprise integrations · Migrations · Phased rollouts',
-    desc: 'Discovery and architecture are waterfall (locked specs); build and iterate phases are agile. Best of both worlds when stakes are high.',
-  },
-]
-
-const sdlcPhases = [
-  {
-    num: '01',
-    title: 'Discover',
-    artifacts: 'Stakeholder interviews · Goals doc · Risk register',
-    desc: 'We learn the business problem before proposing a technical solution. Skipping this is how teams ship the wrong thing perfectly.',
-  },
-  {
-    num: '02',
-    title: 'Architect',
-    artifacts: 'ADRs · Data model · API contracts · Infrastructure diagram',
-    desc: 'Design the system before writing code. Reversible decisions can be cheap; foundational ones rarely are.',
-  },
-  {
-    num: '03',
-    title: 'Build',
-    artifacts: 'Sprint demos · Storybook · Pull request reviews',
-    desc: 'Engineers build against the spec, demo every cycle, and revise. Quality is built in, not inspected in.',
-  },
-  {
-    num: '04',
-    title: 'Test',
-    artifacts: 'Unit + integration coverage · E2E flows · Performance benchmarks',
-    desc: 'Tests are part of the build, not an afterthought. Coverage targets are agreed upfront and enforced in CI.',
-  },
-  {
-    num: '05',
-    title: 'Ship',
-    artifacts: 'Staging sign-off · Runbooks · Rollback plan',
-    desc: 'Deployments are boring on purpose. Every release has a documented rollback and a known healthy baseline.',
-  },
-  {
-    num: '06',
-    title: 'Sustain',
-    artifacts: 'SLO dashboards · Incident reviews · Continuous improvement',
-    desc: 'We don\'t disappear at launch. Observability tells us what production reality looks like, and we keep tuning.',
-  },
-]
 
 export default function EngineeringPage() {
   return (

@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import type {Metadata} from 'next'
+import {stackEntries} from '@/lib/search/sources'
+import type {StackEntry} from '@/lib/search/types'
 
 export const metadata: Metadata = {
   title: 'Our Default Technology Stack',
@@ -7,104 +9,7 @@ export const metadata: Metadata = {
     'Global Nexus default technology choices by project type — React, Angular, Vue.js, Node.js, Django, FastAPI, Flask, .NET Core, ASP.NET, C#, Azure, PostgreSQL, and more. With the reasoning behind every choice.',
 }
 
-interface StackEntry {
-  label: string
-  category: string
-  stack: string[]
-  reasoning: string
-  callout: string
-}
-
-const stacks: StackEntry[] = [
-  {
-    label: 'JavaScript Web Application',
-    category: 'Web · Modern',
-    stack: ['React', 'Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis'],
-    reasoning:
-      "Next.js gives us server-side rendering, file-based routing, and edge deployments out of the box. TypeScript catches a class of bugs before runtime. PostgreSQL is the default for any relational data — battle-tested, feature-rich, and predictable under load.",
-    callout: 'Next.js SSR cuts TTFB by ~40% vs CSR for content-heavy apps.',
-  },
-  {
-    label: 'Microsoft Software Engineering',
-    category: 'Enterprise · .NET',
-    stack: ['C#', '.NET Core', 'ASP.NET MVC', 'Razor', 'Entity Framework', 'Azure', 'SQL Server'],
-    reasoning:
-      "For enterprises already invested in the Microsoft ecosystem, the .NET stack delivers unmatched tooling, type safety, and Azure-native deployment. ASP.NET MVC with Razor remains a workhorse for line-of-business apps; Entity Framework abstracts data access without sacrificing query control.",
-    callout: '.NET Core handles 7M+ requests/sec on commodity hardware (TechEmpower benchmarks).',
-  },
-  {
-    label: 'Angular / Vue.js Frontend',
-    category: 'Web · Enterprise Frontend',
-    stack: ['Angular', 'Vue.js', 'TypeScript', 'RxJS', 'Pinia / NgRx'],
-    reasoning:
-      "When the client mandates Angular (common in enterprise) or Vue.js (common in European and Asian markets), we deliver natively rather than forcing React. Angular shines for large, opinionated apps with strict structure. Vue 3 with the Composition API offers a lighter footprint with the same reactive model.",
-    callout: 'Angular is used by 30%+ of Fortune 500 internal applications.',
-  },
-  {
-    label: 'Python Backend & APIs',
-    category: 'Backend · Python',
-    stack: ['Django', 'FastAPI', 'Flask', 'PostgreSQL', 'Celery', 'Redis'],
-    reasoning:
-      "Django is the default for batteries-included, admin-heavy products — ORM, auth, and admin panel for free. FastAPI is the choice for async-heavy, type-validated APIs (Pydantic + OpenAPI auto-docs). Flask remains the right call for lightweight microservices where Django would be overkill.",
-    callout: 'FastAPI delivers 3-5× higher throughput than Flask for async I/O workloads.',
-  },
-  {
-    label: 'Node.js Backend & APIs',
-    category: 'Backend · Node.js',
-    stack: ['NestJS', 'Express', 'Prisma', 'TypeScript', 'PostgreSQL', 'MongoDB'],
-    reasoning:
-      "NestJS is our default for non-trivial Node.js services — opinionated module structure, dependency injection, and decorators that scale to large codebases. Prisma is the ORM of choice: type-safe schema, auto-generated client, and migrations that don't fight Git. Express stays in the toolbox for lightweight services where NestJS would be overhead.",
-    callout: 'Prisma generates fully type-safe DB clients — zero runtime mismatches between schema and code.',
-  },
-  {
-    label: 'AI / ML Platform',
-    category: 'AI · Inference',
-    stack: ['Python', 'FastAPI', 'LangChain', 'LlamaIndex', 'Pinecone', 'OpenAI / Anthropic APIs'],
-    reasoning:
-      "LangChain handles prompt orchestration, tool use, and agent loops. LlamaIndex specializes in retrieval-augmented generation. Pinecone provides vector search with sub-50ms p95 latency. FastAPI exposes inference endpoints with auto-generated OpenAPI specs — clients consume the API without ambiguity.",
-    callout: 'Pinecone serves vector queries at <50ms p95 for billions of vectors.',
-  },
-  {
-    label: 'Blockchain / Web3',
-    category: 'Decentralized',
-    stack: ['Solidity', 'ASP.NET Core', 'C#', 'Hardhat', 'Ethers.js', 'Unity', 'IPFS'],
-    reasoning:
-      "Solidity for EVM-compatible smart contracts; ASP.NET Core for off-chain services and orchestration. Hardhat provides the testing and deployment toolchain. Unity enters when on-chain gaming or NFT-driven game economies are part of the scope — the Samurai Warlords stack proved this combination ships.",
-    callout: 'Hardhat is used by 80% of professional Ethereum dev teams.',
-  },
-  {
-    label: 'Enterprise SaaS Platform',
-    category: 'B2B · SaaS',
-    stack: ['React', 'Django REST', 'PostgreSQL', 'Redis', 'Celery', 'Stripe'],
-    reasoning:
-      "Django REST Framework is hard to beat for B2B SaaS — built-in serialization, permissions, throttling, and admin tooling. React frontend provides interactivity without coupling to Django templates. Stripe handles billing complexity (subscriptions, dunning, tax, invoicing) so we don't have to rebuild it.",
-    callout: 'Django REST Framework powers Instagram, Mozilla, Red Hat, and Eventbrite.',
-  },
-  {
-    label: 'Mobile Application',
-    category: 'Mobile · Native & Cross-Platform',
-    stack: ['React Native', 'Flutter / Dart', 'Swift (iOS)', 'Kotlin (Android)', 'Expo', 'TypeScript'],
-    reasoning:
-      "React Native with Expo is our default when ~80% code-share with a React web app is the win — fast iteration, OTA updates, single TypeScript codebase. Flutter / Dart is the right call when pixel-perfect custom UI and 60fps animations matter more than web code reuse. We drop to native — Swift for iOS, Kotlin for Android — when the app demands platform-specific APIs (CarPlay, Health, Wallet, AR) or when long-term maintenance favors first-party tooling over a cross-platform layer.",
-    callout: 'Flutter ships true 60fps via Skia rendering; React Native powers Instagram, Discord, Shopify, and Tesla.',
-  },
-  {
-    label: 'Serverless & Event-Driven',
-    category: 'Architecture · Serverless',
-    stack: ['Serverless Framework', 'AWS CDK', 'AWS Lambda', 'EventBridge', 'SQS', 'Step Functions'],
-    reasoning:
-      "When workloads are spiky, event-shaped, or pay-per-use is the right cost model, we default to serverless. Serverless Framework handles Lambda packaging and deployment with minimal config. AWS CDK gives us typed infrastructure-as-code (TypeScript) when we want richer abstractions than Terraform offers. EventBridge decouples producers from consumers; SQS guarantees delivery; Step Functions orchestrate multi-step workflows without a custom state machine.",
-    callout: 'AWS CDK reduces infrastructure code by ~80% vs raw CloudFormation YAML.',
-  },
-  {
-    label: 'Cloud Infrastructure',
-    category: 'DevOps · Infrastructure',
-    stack: ['AWS', 'Azure', 'Vercel', 'Docker', 'Terraform', 'GitHub Actions'],
-    reasoning:
-      "AWS for unconstrained scale; Azure when the client is .NET-aligned or has existing Microsoft enterprise agreements; Vercel for Next.js frontends with edge requirements. Terraform encodes infrastructure as version-controlled code. GitHub Actions runs every test, build, and deploy without external CI services.",
-    callout: 'Terraform reduces infra drift incidents by 90% in audited environments.',
-  },
-]
+const stacks: StackEntry[] = stackEntries
 
 export default function StackPage() {
   return (
