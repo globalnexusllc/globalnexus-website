@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "embeddings:build": "tsx scripts/build-blog-embeddings.ts",
-    "migrate:sanity": "tsx --env-file=.env.migrate scripts/migrate-sanity.ts"
+    "embeddings:build": "tsx scripts/build-blog-embeddings.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
@@ -25,8 +24,6 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.15.8",
-    "@sanity/export": "^6.1.0",
-    "@sanity/import": "^6.0.1",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",

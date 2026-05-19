@@ -24,10 +24,12 @@ Create `.env.local` for development (gitignored). Defaults in code make most var
 |---|---|---|
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project to read content from | optional (falls back to the hardcoded ID in [`src/lib/sanity/client.ts`](src/lib/sanity/client.ts)) |
 | `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name | optional (defaults to `production`) |
-| `FORGE_API_URL` | Endpoint for the AI chat backend (OpenAI-compatible) | optional — AI search degrades gracefully if missing |
-| `FORGE_API_KEY` | Bearer token for the AI endpoint | required if AI search is enabled |
-| `EMBEDDING_API_URL` | Embedding endpoint (OpenAI-compatible) for RAG | optional — RAG silently disabled if unset |
-| `EMBEDDING_API_KEY` / `OPENAI_API_KEY` | Bearer token for embeddings | required for `npm run embeddings:build` |
+| `OPENAI_API_KEY` | Bearer token for the AI chat and embeddings | required for AI search + RAG embeddings; site degrades gracefully without it |
+| `OPENAI_API_URL` | Base URL for an OpenAI-compatible endpoint (Azure OpenAI, proxy, etc.) | optional — defaults to `https://api.openai.com` |
+| `OPENAI_MODEL` | Chat model name | optional — defaults to `gpt-4o-mini` |
+| `EMBEDDING_API_URL` | Embedding endpoint (OpenAI-compatible) | optional — falls back to `OPENAI_API_URL` then `https://api.openai.com` |
+| `EMBEDDING_API_KEY` | Bearer token for the embedding endpoint | optional — falls back to `OPENAI_API_KEY` |
+| `EMBEDDING_MODEL` | Embedding model name | optional — defaults to `text-embedding-3-small` |
 | `EMBEDDING_MODEL` | Embedding model (default: `text-embedding-3-small`) | optional |
 
 Production env vars live in **Netlify dashboard → Site settings → Environment variables**.
@@ -43,14 +45,12 @@ Production env vars live in **Netlify dashboard → Site settings → Environmen
 | `npm run start` | Run a production build locally |
 | `npm run lint` | ESLint |
 | `npm run embeddings:build` | Build RAG embeddings for blog posts (see below) |
-| `npm run migrate:sanity` | Clone one Sanity project → another (see below) |
 
 Direct script invocations (no npm-script alias):
 
 | Command | What it does |
 |---|---|
 | `npx tsx scripts/mobile-audit.ts` | Screenshot every page at iPhone-12 viewport and flag horizontal overflow |
-| `npx tsx --env-file=.env.migrate scripts/verify-target.ts` | Side-by-side document-count diff of source vs target Sanity projects |
 | `node scripts/generate-team-avatars.js` | Regenerate the 5 NFT-style team avatars in `public/team/` |
 
 ---
@@ -72,7 +72,7 @@ App-router pages in `src/app/`. Hard-coded marketing content is centralized in [
 Two-layer search experience:
 
 1. **General search** — `Fuse.js` fuzzy index over the unified catalog (pages, portfolio, team, stack, engineering) plus a Sanity GROQ query for blog posts. Available in the global `⌘K` modal and at `/search?q=...` ([`src/components/shared/SiteSearch.tsx`](src/components/shared/SiteSearch.tsx), [`src/app/search/page.tsx`](src/app/search/page.tsx)).
-2. **AI search** — Gemini 2.5 Flash via a Forge-compatible endpoint, with the entire site catalog injected as a system prompt ([`src/lib/global-nexus-knowledge.ts`](src/lib/global-nexus-knowledge.ts)), optional RAG over Sanity blog content ([`src/lib/ai/rag.ts`](src/lib/ai/rag.ts)), per-IP rate limiting ([`src/lib/ai/rate-limit.ts`](src/lib/ai/rate-limit.ts)), and post-response citation auto-linking ([`src/lib/ai/auto-cite.ts`](src/lib/ai/auto-cite.ts)).
+2. **AI search** — OpenAI Chat Completions (default model `gpt-4o-mini`, configurable via `OPENAI_MODEL`), with the entire site catalog injected as a system prompt ([`src/lib/global-nexus-knowledge.ts`](src/lib/global-nexus-knowledge.ts)), optional RAG over Sanity blog content ([`src/lib/ai/rag.ts`](src/lib/ai/rag.ts)), per-IP rate limiting ([`src/lib/ai/rate-limit.ts`](src/lib/ai/rate-limit.ts)), and post-response citation auto-linking ([`src/lib/ai/auto-cite.ts`](src/lib/ai/auto-cite.ts)).
 
 ### Styling
 
@@ -81,51 +81,6 @@ Tailwind v4 + a small custom palette in [`src/app/globals.css`](src/app/globals.
 ---
 
 ## Operational procedures
-
-### Sanity migration (cloning content to a new project)
-
-Use this when moving Sanity ownership between accounts or splitting datasets.
-
-**1. Set up credentials.** Copy the template, fill in real values (gitignored):
-
-```bash
-cp scripts/migrate-sanity.env.example .env.migrate
-$EDITOR .env.migrate
-```
-
-Tokens are minted at `sanity.io/manage` → API → Tokens. Source needs **Viewer** scope; target needs **Editor** or higher.
-
-**2. Run the migration:**
-
-```bash
-npm run migrate:sanity
-```
-
-The script:
-- Preflights both projects' credentials
-- Exports the source dataset (drafts + assets included) to a local `.tar.gz`
-- Imports into the target with `operation: 'createOrReplace'` (idempotent, safe re-runs)
-- Tolerates individual broken asset URLs (`allowFailingAssets: true`) — logs but doesn't abort
-- Prints a post-migration checklist of manual steps it can't do (env var updates, CORS, schema deploy)
-
-**3. Verify parity:**
-
-```bash
-npx tsx --env-file=.env.migrate scripts/verify-target.ts
-```
-
-Side-by-side counts per document type, plus slug parity check on the top 5 most recent posts.
-
-**4. Update site config** to point at the new project:
-- [`src/lib/sanity/client.ts`](src/lib/sanity/client.ts) — change the fallback `projectId`
-- `.env.local` — set `NEXT_PUBLIC_SANITY_PROJECT_ID`
-- Netlify dashboard — same env vars for production
-- New project dashboard — add CORS origins (`localhost:3000` + production domain)
-- Studio repo (separate from this site) — redeploy schema with the new `projectId`
-
-**5. Rotate tokens** in the new and old projects once migration is verified.
-
-The intermediate tarball (`sanity-export-*.tar.gz`) is gitignored — keep it as an audit snapshot, delete after verification.
 
 ### AI search RAG embeddings
 
@@ -178,8 +133,8 @@ CI deploys are triggered by pushes to `master`. Preview deploys on PRs.
 Required production env vars in Netlify:
 - `NEXT_PUBLIC_SANITY_PROJECT_ID`
 - `NEXT_PUBLIC_SANITY_DATASET`
-- `FORGE_API_URL`, `FORGE_API_KEY` (if AI search enabled)
-- `EMBEDDING_API_KEY` (only needed to rebuild embeddings; runtime reads the JSON file)
+- `OPENAI_API_KEY` (enables AI search; also used by the embeddings build script)
+- `OPENAI_MODEL` (optional — override the default `gpt-4o-mini`)
 
 ---
 

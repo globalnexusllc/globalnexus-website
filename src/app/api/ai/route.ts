@@ -9,9 +9,12 @@ interface ChatMsg {
   content: string
 }
 
-const API_URL = process.env.FORGE_API_URL
-  ? `${process.env.FORGE_API_URL.replace(/\/$/, '')}/v1/chat/completions`
-  : 'https://forge.manus.im/v1/chat/completions'
+// Default to OpenAI. Override OPENAI_API_URL for Azure OpenAI, a proxy, or any
+// other OpenAI-compatible endpoint. The URL is expected to be the API base
+// (e.g. `https://api.openai.com`) — the `/v1/chat/completions` suffix is appended.
+const API_BASE = (process.env.OPENAI_API_URL || 'https://api.openai.com').replace(/\/$/, '')
+const API_URL = `${API_BASE}/v1/chat/completions`
+const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini'
 
 export async function POST(req: NextRequest) {
   // Rate limit per client IP — defense against API key cost abuse.
@@ -40,7 +43,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({error: 'question required'}, {status: 400})
     }
 
-    if (!process.env.FORGE_API_KEY) {
+    if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         {answer: 'AI search is not configured. Please contact us at [Contact](/contact).'},
         {status: 200}
@@ -48,7 +51,7 @@ export async function POST(req: NextRequest) {
     }
 
     // RAG: retrieve top-k blog chunks relevant to the question. Silently
-    // degrades to an empty context block if embeddings store / API key is missing.
+    // degrades to an empty context block if the embeddings store is empty.
     const chunks = await retrieveRelevantChunks(question.trim(), 4)
     const ragContext = formatChunksAsContext(chunks)
 
@@ -62,17 +65,19 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        authorization: `Bearer ${process.env.FORGE_API_KEY}`,
+        authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gemini-2.5-flash',
+        model: MODEL,
         messages,
-        max_tokens: 32768,
-        thinking: {budget_tokens: 128},
+        max_tokens: 4096,
+        temperature: 0.6,
       }),
     })
 
     if (!response.ok) {
+      const errBody = await response.text().catch(() => '')
+      console.error(`OpenAI API error ${response.status}: ${errBody.slice(0, 400)}`)
       throw new Error(`API error: ${response.status}`)
     }
 

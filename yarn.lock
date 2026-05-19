@@ -1851,7 +1851,7 @@
     yaml "^2.8.2"
     zod "^4.3.6"
 
-"@sanity/client@^5.0.0 || ^6.0.0 || ^7.0.0", "@sanity/client@^7.11.2", "@sanity/client@^7.14.1", "@sanity/client@^7.16.0", "@sanity/client@^7.17.0", "@sanity/client@^7.2.1", "@sanity/client@^7.21.0", "@sanity/client@^7.6.0", "@sanity/client@^7.9.0":
+"@sanity/client@^5.0.0 || ^6.0.0 || ^7.0.0", "@sanity/client@^7.11.2", "@sanity/client@^7.14.1", "@sanity/client@^7.16.0", "@sanity/client@^7.17.0", "@sanity/client@^7.2.1", "@sanity/client@^7.6.0", "@sanity/client@^7.9.0":
   version "7.22.0"
   resolved "https://registry.npmjs.org/@sanity/client/-/client-7.22.0.tgz"
   integrity sha512-KqN9cowZwfZNCwCchRaz1B9WrZTThQxX/gfJhJO1uKJBuk/JcbYGBiSK9CSqocWoYDQ/QqANVXy1r7a8zognww==
@@ -2000,21 +2000,6 @@
     tar-fs "^3.1.2"
     tinyglobby "^0.2.15"
 
-"@sanity/import@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/@sanity/import/-/import-6.0.1.tgz"
-  integrity sha512-fXeKxfRAOeOsykm/sBjhD3YJMeUuxxyK2/BZFm3jo7wCro4d19wdW1ZlRvT1NDaYPx1eEzKl2E4gDiqRRIxRRg==
-  dependencies:
-    "@sanity/asset-utils" "^2.3.0"
-    "@sanity/generate-help-url" "^4.0.0"
-    "@sanity/mutator" "^5.18.0"
-    debug "^4.4.3"
-    get-it "^8.7.0"
-    gunzip-maybe "^1.4.2"
-    p-map "^7.0.3"
-    tar-fs "^3.1.2"
-    tinyglobby "^0.2.15"
-
 "@sanity/insert-menu@^3.0.4":
   version "3.0.4"
   resolved "https://registry.npmjs.org/@sanity/insert-menu/-/insert-menu-3.0.4.tgz"
@@ -2033,7 +2018,7 @@
   dependencies:
     "@sanity/color" "^3.0.6"
 
-"@sanity/media-library-types@^1.0.0", "@sanity/media-library-types@^1.2.0", "@sanity/media-library-types@^1.4.0":
+"@sanity/media-library-types@^1.0.0", "@sanity/media-library-types@^1.2.0":
   version "1.4.0"
   resolved "https://registry.npmjs.org/@sanity/media-library-types/-/media-library-types-1.4.0.tgz"
   integrity sha512-DZwNT+dDSc1JPW4e7U5C+IJELq5IAeU2A1UcY1079gl+Hakx2USvu5LyY1hrjb1eifRPAhL8uwOVcMNBUmSmzg==
@@ -2096,17 +2081,6 @@
     "@sanity/uuid" "^3.0.2"
     debug "^4.4.3"
     lodash-es "^4.17.22"
-
-"@sanity/mutator@^5.18.0":
-  version "5.25.1"
-  resolved "https://registry.npmjs.org/@sanity/mutator/-/mutator-5.25.1.tgz"
-  integrity sha512-SzAg1hz8ABLraWJfeSkCsABEY70WtFAWM60gFVtb913UxoNWXTDk3YINxEWi6cNeMvHOt7a1wP8aRL01iLqkjg==
-  dependencies:
-    "@sanity/diff-match-patch" "^3.2.0"
-    "@sanity/types" "5.25.1"
-    "@sanity/uuid" "^3.0.2"
-    debug "^4.4.3"
-    lodash-es "^4.18.1"
 
 "@sanity/presentation-comlink@^2.0.1":
   version "2.0.1"
@@ -2213,14 +2187,6 @@
   dependencies:
     "@sanity/client" "^7.6.0"
     "@sanity/media-library-types" "^1.0.0"
-
-"@sanity/types@5.25.1":
-  version "5.25.1"
-  resolved "https://registry.npmjs.org/@sanity/types/-/types-5.25.1.tgz"
-  integrity sha512-GKkt8w1C/7y7ldQ/0CmVXhAtZyrnz2VaKV5qV5A/v9ApeBIckutQoBvJOkm8PesJHLo0RmaBoDDXSoD6RHbnqA==
-  dependencies:
-    "@sanity/client" "^7.21.0"
-    "@sanity/media-library-types" "^1.4.0"
 
 "@sanity/ui@^3.1.11", "@sanity/ui@^3.1.14":
   version "3.1.14"
@@ -5398,7 +5364,7 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
-lodash-es@^4.17.21, lodash-es@^4.17.22, lodash-es@^4.17.23, lodash-es@^4.18.1:
+lodash-es@^4.17.21, lodash-es@^4.17.22, lodash-es@^4.17.23:
   version "4.18.1"
   resolved "https://registry.npmjs.org/lodash-es/-/lodash-es-4.18.1.tgz"
   integrity sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==
