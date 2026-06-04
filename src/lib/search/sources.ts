@@ -331,7 +331,7 @@ export const teamMembers: TeamMember[] = [
     photo: '/team/brian-howell.png',
   },
   {
-    name: 'Daniel Baez',
+    name: 'Bounnarath Lorth',
     title: 'Senior Software Engineer · AWS & DevOps',
     bio: "Full-stack web engineer and AWS infrastructure expert with 10+ years across application code and the platforms that run it. Daniel owns the boundary where software meets cloud: VPC topology, IAM policies, CI/CD pipelines, observability, and cost controls — the unglamorous work that keeps production reliable at 3am. Equally fluent shipping React/Node applications and writing the Terraform and AWS CDK that deploy them. The engineer you want when the bottleneck isn't the code, it's everything around it.",
     photo: '/team/daniel-baez.png',
