@@ -302,15 +302,27 @@ export const portfolioCategories = [
 export const teamMembers: TeamMember[] = [
   {
     name: 'Stephen Danals',
-    title: 'CEO & Co-Founder',
+    title: 'CEO · Co-Founder · Board Member',
     bio: "Co-founder and systems engineer whose background runs through network administration, IT operations, and infrastructure — the layer where products either hold up under real load or quietly fall apart. Stephen sees software as systems, not just codebases, and brings an operator's eye to every engagement: what breaks, what scales, and what actually has to run reliably once the demo is over. A founder-operator who keeps the firm anchored to real-world problems over architecture debates.",
     photo: '/team/stephen-danals.png',
   },
   {
     name: 'David Zhen',
-    title: 'Co-Founder & CFO',
+    title: 'Co-Founder · CFO · Board Director',
     bio: 'Co-founder and technical lead with 10+ years of hands-on engineering across web, mobile, and DeFi. Specializes in high-level architecture and cloud infrastructure — the decisions that determine whether a product scales gracefully or buckles at 10× load. David has taken products from zero to production across early-stage startups, and brings founder-level product judgment to every engagement, not just technical execution.',
     photo: '/team/david-zhen.png',
+  },
+  {
+    name: 'Wesley Hatley',
+    title: 'CTO',
+    bio: 'I am a completed understanding of Computer Science. I am Master of the Software Development Lifecycle. I am the best in the world at what I do.',
+    photo: '/team/wesley-hatley.png',
+  },
+  {
+    name: 'Austin McNeil',
+    title: 'CSO',
+    bio: "Sales leader with a career built on brand distribution — turning good products into the ones buyers actually reach for. Austin brings a combination that's rare in a technical firm: relationships that outlast individual deals, strategy grounded in territory data, and product knowledge deep enough to sell software to CTOs and CIOs on their own terms. Where most sales leaders pitch features, Austin sells outcomes — and outcomes are what turn pipeline into revenue.",
+    photo: '/team/austin-mcneil.png',
   },
   {
     name: 'Milan Kojadinovic',
