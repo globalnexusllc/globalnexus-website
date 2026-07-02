@@ -10,6 +10,7 @@ import ScrollToTop from '@/components/shared/ScrollToTop'
 import SeoKeywords from '@/components/shared/SeoKeywords'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://globalnexus.one'),
   title: {
     default: 'Global Nexus - Software Engineering Services',
     template: '%s | Global Nexus',

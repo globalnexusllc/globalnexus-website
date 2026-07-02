@@ -66,7 +66,7 @@ export default function EngineeringPage() {
       </section>
 
       {/* ═══ DEFAULT SPECIFICATIONS ═══ */}
-      <section className="py-20 sm:py-28" style={{background: 'var(--warm-bg)'}}>
+      <section id="default-specifications" className="py-20 sm:py-28 scroll-mt-24" style={{background: 'var(--warm-bg)'}}>
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{color: 'var(--rust)', fontFamily: 'var(--font-body)'}}>
             Default Specifications
@@ -101,7 +101,7 @@ export default function EngineeringPage() {
       </section>
 
       {/* ═══ ITERATION STRATEGIES ═══ */}
-      <section className="py-20 sm:py-28" style={{background: 'var(--dark)'}}>
+      <section id="iteration-strategy" className="py-20 sm:py-28 scroll-mt-24" style={{background: 'var(--dark)'}}>
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{color: 'oklch(0.82 0.15 75)', fontFamily: 'var(--font-body)'}}>
             Iteration Strategy
@@ -136,7 +136,7 @@ export default function EngineeringPage() {
       </section>
 
       {/* ═══ SDLC ═══ */}
-      <section className="py-20 sm:py-28" style={{background: 'var(--warm-bg)'}}>
+      <section id="sdlc" className="py-20 sm:py-28 scroll-mt-24" style={{background: 'var(--warm-bg)'}}>
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{color: 'var(--rust)', fontFamily: 'var(--font-body)'}}>
             Software Development Lifecycle

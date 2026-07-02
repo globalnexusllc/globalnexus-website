@@ -53,19 +53,28 @@ export default function StackPage() {
       <section className="py-20 sm:py-28" style={{background: 'var(--warm-bg)'}}>
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="grid lg:grid-cols-2 gap-6">
-            {stacks.map((entry, i) => (
+            {stacks.map((entry, i) => {
+              const slug = entry.label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+              return (
               <div
                 key={entry.label}
-                className="rounded-xl p-7 sm:p-8 flex flex-col"
+                id={slug}
+                className="rounded-xl p-7 sm:p-8 flex flex-col scroll-mt-24"
                 style={{background: '#ffffff', border: '1px solid rgba(30,58,95,0.08)', boxShadow: '0 2px 16px rgba(30,58,95,0.06)'}}
               >
                 <div className="flex items-start justify-between mb-3 gap-3">
                   <p className="text-xs uppercase tracking-[0.2em] font-semibold" style={{color: 'var(--rust)', fontFamily: 'var(--font-mono)'}}>
                     {entry.category}
                   </p>
-                  <p className="text-xs font-mono" style={{color: 'var(--text-mid)'}}>
+                  <a
+                    href={`#${slug}`}
+                    className="text-xs font-mono hover:opacity-70"
+                    style={{color: 'var(--text-mid)'}}
+                    aria-label={`Link to ${entry.label}`}
+                    title={`Copy link to ${entry.label}`}
+                  >
                     {String(i + 1).padStart(2, '0')}
-                  </p>
+                  </a>
                 </div>
 
                 <h3 className="text-2xl font-bold mb-5" style={{color: 'var(--text-dark)', fontFamily: 'var(--font-display)'}}>
@@ -103,7 +112,8 @@ export default function StackPage() {
                   ▸ {entry.callout}
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>

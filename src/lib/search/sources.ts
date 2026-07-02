@@ -396,6 +396,14 @@ export const stackEntries: StackEntry[] = [
     callout: 'Prisma generates fully type-safe DB clients — zero runtime mismatches between schema and code.',
   },
   {
+    label: 'Default Database',
+    category: 'Data · Persistence',
+    stack: ['PostgreSQL', 'MongoDB', 'Redis', 'SQL Server'],
+    reasoning:
+      "PostgreSQL is our default for anything relational — ACID transactions, JSONB for semi-structured columns, mature extensions (PostGIS for geo, pgvector for AI, TimescaleDB for time-series), and 30+ years of production hardening. We reach for MongoDB when the domain is genuinely document-shaped and query patterns don't need joins — event logs, flexible product catalogs, high-write workloads. Redis handles caching, sessions, rate limits, and pub/sub — the fast lookups that would waste PostgreSQL cycles. On Microsoft-stack engagements we use SQL Server with Entity Framework for the same reason we use Postgres elsewhere: it's the trusted, battle-tested default the ecosystem is built around.",
+    callout: 'PostgreSQL powers the majority of AWS RDS production databases and is the default for Netflix, Instagram, Reddit, and Robinhood.',
+  },
+  {
     label: 'AI / ML Platform',
     category: 'AI · Inference',
     stack: ['Python', 'FastAPI', 'LangChain', 'LlamaIndex', 'Pinecone', 'OpenAI / Anthropic APIs'],
