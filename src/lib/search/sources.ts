@@ -319,10 +319,10 @@ export const teamMembers: TeamMember[] = [
     photo: '/team/wesley-hatley.png',
   },
   {
-    name: 'Austin McNeil',
+    name: 'Austin McNeill',
     title: 'CSO',
     bio: "Sales leader with a career built on brand distribution — turning good products into the ones buyers actually reach for. Austin brings a combination that's rare in a technical firm: relationships that outlast individual deals, strategy grounded in territory data, and product knowledge deep enough to sell software to CTOs and CIOs on their own terms. Where most sales leaders pitch features, Austin sells outcomes — and outcomes are what turn pipeline into revenue.",
-    photo: '/team/austin-mcneil.png',
+    photo: '/team/austin-mcneill.png',
   },
   {
     name: 'Milan Kojadinovic',
